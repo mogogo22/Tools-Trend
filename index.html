@@ -504,7 +504,7 @@
             msg = `أهلاً ${name}، نرجو أن تكون تجربتك مع Trend Car Rental ممتازة. بنفكرك إن ميعاد تسليم العربية ${car} هو ${time}. تحياتنا لك!`;
         }
 
-        let url = `https://web.whatsapp.com/send?phone=${phone}&text=${encodeURIComponent(msg)}`;
+        let url = `https://wa.me/${phone}?text=${encodeURIComponent(msg)}`;
         window.open(url, '_blank');
     }
 
@@ -579,7 +579,7 @@
                 htmlResult += `
                     <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px; background:var(--input-bg); padding:8px; border-radius:6px; border:1px solid var(--border-color);">
                         <span>📱 ${displayNum}</span>
-                        <button class="tag-btn" style="border-color:var(--accent-green); color:var(--accent-green);" onclick="window.open('https://web.whatsapp.com/send?phone=${clean}', '_blank')">فتح واتساب</button>
+                        <button class="tag-btn" style="border-color:var(--accent-green); color:var(--accent-green);" onclick="window.open('https://wa.me/${clean}', '_blank')">فتح واتساب</button>
                     </div>
                 `;
             }
