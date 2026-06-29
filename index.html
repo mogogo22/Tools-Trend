@@ -6,7 +6,6 @@
     <title>Trend Tools - أدوات العمل اليومية</title>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
-        /* المتغيرات الافتراضية (Dark Mode) */
         :root {
             --bg-color: #121214;
             --card-bg: #1a1a1e;
@@ -16,10 +15,11 @@
             --text-muted: #a1a1aa;
             --border-color: #2a2a30;
             --accent-green: #34c759;
+            --accent-orange: #ff9500;
+            --accent-blue: #0a84ff;
             --input-bg: #222227;
         }
 
-        /* متغيرات الـ Light Mode */
         [data-theme="light"] {
             --bg-color: #f4f4f7;
             --card-bg: #ffffff;
@@ -29,6 +29,8 @@
             --text-muted: #666668;
             --border-color: #d1d1d6;
             --accent-green: #34c759;
+            --accent-orange: #ff9500;
+            --accent-blue: #0a84ff;
             --input-bg: #f2f2f7;
         }
 
@@ -59,23 +61,10 @@
             position: relative;
         }
 
-        header h1 {
-            color: var(--text-color);
-            font-size: 28px;
-            font-weight: 700;
-        }
+        header h1 { color: var(--text-color); font-size: 28px; font-weight: 700; }
+        header h1 span { color: var(--primary-color); }
+        header p { color: var(--text-muted); font-size: 14px; margin-top: 5px; }
 
-        header h1 span {
-            color: var(--primary-color);
-        }
-
-        header p {
-            color: var(--text-muted);
-            font-size: 14px;
-            margin-top: 5px;
-        }
-
-        /* زرار تغيير المود */
         .theme-toggle-btn {
             position: absolute;
             top: 0;
@@ -94,38 +83,33 @@
             box-shadow: 0 2px 8px rgba(0,0,0,0.1);
         }
 
-        /* Tabs Navigation */
         .tabs-nav {
             display: flex;
-            gap: 10px;
+            gap: 8px;
             margin-bottom: 25px;
             overflow-x: auto;
-            padding-bottom: 5px;
+            padding-bottom: 8px;
         }
+
+        .tabs-nav::-webkit-scrollbar { height: 4px; }
+        .tabs-nav::-webkit-scrollbar-track { background: var(--bg-color); }
+        .tabs-nav::-webkit-scrollbar-thumb { background: var(--border-color); border-radius: 4px; }
 
         .tab-btn {
             background: var(--card-bg);
             color: var(--text-muted);
             border: 1px solid var(--border-color);
-            padding: 10px 20px;
+            padding: 10px 16px;
             border-radius: 8px;
             cursor: pointer;
             font-weight: 600;
             white-space: nowrap;
+            font-size: 13px;
         }
 
-        .tab-btn:hover {
-            color: var(--text-color);
-            border-color: var(--text-muted);
-        }
+        .tab-btn:hover { color: var(--text-color); border-color: var(--text-muted); }
+        .tab-btn.active { background: var(--primary-color); color: #fff; border-color: var(--primary-color); }
 
-        .tab-btn.active {
-            background: var(--primary-color);
-            color: #fff;
-            border-color: var(--primary-color);
-        }
-
-        /* Tab Content */
         .tab-content {
             display: none;
             background: var(--card-bg);
@@ -135,9 +119,7 @@
             box-shadow: 0 4px 15px rgba(0,0,0,0.1);
         }
 
-        .tab-content.active {
-            display: block;
-        }
+        .tab-content.active { display: block; }
 
         h2 {
             font-size: 20px;
@@ -148,10 +130,15 @@
             gap: 10px;
         }
 
-        /* Form Controls */
-        .form-group {
-            margin-bottom: 15px;
+        h3 {
+            font-size: 15px;
+            color: var(--text-muted);
+            margin: 20px 0 12px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid var(--border-color);
         }
+
+        .form-group { margin-bottom: 15px; }
 
         label {
             display: block;
@@ -169,30 +156,16 @@
             border-radius: 8px;
             font-size: 14px;
             outline: none;
+            font-family: 'Cairo', sans-serif;
         }
 
-        input:focus, select:focus, textarea:focus {
-            border-color: var(--primary-color);
-        }
+        input:focus, select:focus, textarea:focus { border-color: var(--primary-color); }
 
-        .grid-2 {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 15px;
-        }
+        select option { background: var(--card-bg); }
 
-        @media (max-width: 600px) {
-            .grid-2 {
-                grid-template-columns: 1fr;
-            }
-            .theme-toggle-btn {
-                position: static;
-                margin: 15px auto 0 auto;
-                width: fit-content;
-            }
-        }
+        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+        .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 15px; }
 
-        /* Buttons */
         .btn {
             background: var(--primary-color);
             color: white;
@@ -201,33 +174,32 @@
             border-radius: 8px;
             cursor: pointer;
             font-weight: 600;
+            font-family: 'Cairo', sans-serif;
             width: 100%;
             margin-top: 10px;
             display: inline-flex;
             align-items: center;
             justify-content: center;
             gap: 8px;
+            font-size: 14px;
         }
 
-        .btn:hover {
-            background: var(--primary-hover);
+        .btn:hover { background: var(--primary-hover); }
+        .btn-green { background: var(--accent-green); }
+        .btn-green:hover { background: #2db34f; }
+        .btn-blue { background: var(--accent-blue); }
+        .btn-blue:hover { background: #0070d8; }
+        .btn-outline {
+            background: transparent;
+            border: 1px solid var(--border-color);
+            color: var(--text-color);
+            width: auto;
+            padding: 8px 16px;
+            margin-top: 0;
         }
+        .btn-outline:hover { border-color: var(--primary-color); background: transparent; }
 
-        .btn-green {
-            background: var(--accent-green);
-        }
-
-        .btn-green:hover {
-            background: #2db34f;
-        }
-
-        /* Quick Templates Style */
-        .template-tags {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 8px;
-            margin-top: 15px;
-        }
+        .template-tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 15px; }
 
         .tag-btn {
             background: var(--input-bg);
@@ -237,13 +209,11 @@
             border-radius: 20px;
             font-size: 13px;
             cursor: pointer;
+            font-family: 'Cairo', sans-serif;
         }
 
-        .tag-btn:hover {
-            border-color: var(--primary-color);
-        }
+        .tag-btn:hover { border-color: var(--primary-color); }
 
-        /* Result Box */
         .result-box {
             background: var(--input-bg);
             border: 1px solid var(--border-color);
@@ -256,12 +226,202 @@
         .result-header {
             display: flex;
             justify-content: space-between;
+            align-items: center;
             color: var(--text-muted);
             font-size: 13px;
             margin-bottom: 10px;
         }
 
-        /* Toast Notification Style */
+        /* ===== CONTRACT STYLES ===== */
+        .contract-preview {
+            background: var(--input-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 20px;
+            margin-top: 20px;
+            line-height: 2;
+            font-size: 14px;
+            display: none;
+        }
+
+        .contract-preview h3 {
+            text-align: center;
+            font-size: 18px;
+            color: var(--primary-color);
+            margin-bottom: 15px;
+            border-bottom: 2px solid var(--primary-color);
+            padding-bottom: 10px;
+            color: var(--text-color);
+        }
+
+        .contract-section {
+            margin-bottom: 15px;
+            padding: 12px;
+            background: var(--card-bg);
+            border-radius: 6px;
+            border-right: 3px solid var(--primary-color);
+        }
+
+        .contract-section p { margin-bottom: 5px; }
+        .contract-section strong { color: var(--primary-color); }
+
+        .contract-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+            flex-wrap: wrap;
+        }
+
+        .contract-actions .btn { width: auto; flex: 1; margin-top: 0; }
+
+        /* ===== REVENUE STYLES ===== */
+        .revenue-entry-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr auto;
+            gap: 10px;
+            align-items: end;
+            margin-bottom: 10px;
+            background: var(--input-bg);
+            padding: 12px;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+        }
+
+        .revenue-entry-row .form-group { margin-bottom: 0; }
+
+        .remove-btn {
+            background: rgba(255,59,48,0.1);
+            border: 1px solid var(--primary-color);
+            color: var(--primary-color);
+            padding: 10px 14px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            line-height: 1;
+            font-family: 'Cairo', sans-serif;
+            align-self: flex-end;
+        }
+
+        .remove-btn:hover { background: var(--primary-color); color: white; }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+            margin-top: 20px;
+        }
+
+        .stat-card {
+            background: var(--input-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            padding: 16px;
+            text-align: center;
+        }
+
+        .stat-card .stat-label { font-size: 12px; color: var(--text-muted); margin-bottom: 6px; }
+        .stat-card .stat-value { font-size: 22px; font-weight: 700; }
+        .stat-card.green { border-color: var(--accent-green); }
+        .stat-card.green .stat-value { color: var(--accent-green); }
+        .stat-card.blue { border-color: var(--accent-blue); }
+        .stat-card.blue .stat-value { color: var(--accent-blue); }
+        .stat-card.red { border-color: var(--primary-color); }
+        .stat-card.red .stat-value { color: var(--primary-color); }
+
+        .revenue-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+            font-size: 13px;
+        }
+
+        .revenue-table th {
+            background: var(--input-bg);
+            padding: 10px;
+            text-align: right;
+            color: var(--text-muted);
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .revenue-table td {
+            padding: 10px;
+            border-bottom: 1px solid var(--border-color);
+            color: var(--text-color);
+        }
+
+        .revenue-table tr:last-child td { border-bottom: none; }
+        .revenue-table tr:hover td { background: var(--input-bg); }
+
+        /* ===== ALERTS STYLES ===== */
+        .alert-entry-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr auto;
+            gap: 10px;
+            align-items: end;
+            margin-bottom: 10px;
+            background: var(--input-bg);
+            padding: 12px;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+        }
+
+        .alert-entry-row .form-group { margin-bottom: 0; }
+
+        .alert-cards { margin-top: 20px; display: flex; flex-direction: column; gap: 10px; }
+
+        .alert-card {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 14px 16px;
+            border-radius: 10px;
+            border: 1px solid var(--border-color);
+            background: var(--input-bg);
+        }
+
+        .alert-badge {
+            min-width: 52px;
+            height: 52px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 11px;
+            font-weight: 700;
+            text-align: center;
+            line-height: 1.2;
+            flex-shrink: 0;
+        }
+
+        .badge-red { background: rgba(255,59,48,0.15); color: #ff3b30; border: 2px solid #ff3b30; }
+        .badge-orange { background: rgba(255,149,0,0.15); color: #ff9500; border: 2px solid #ff9500; }
+        .badge-green { background: rgba(52,199,89,0.15); color: #34c759; border: 2px solid #34c759; }
+
+        .alert-info { flex: 1; }
+        .alert-info .alert-title { font-weight: 700; font-size: 14px; }
+        .alert-info .alert-sub { font-size: 12px; color: var(--text-muted); margin-top: 3px; }
+
+        .alert-date {
+            font-size: 13px;
+            color: var(--text-muted);
+            text-align: left;
+            white-space: nowrap;
+        }
+
+        .alert-card.expired { border-color: rgba(255,59,48,0.4); background: rgba(255,59,48,0.05); }
+        .alert-card.warning { border-color: rgba(255,149,0,0.4); background: rgba(255,149,0,0.05); }
+        .alert-card.ok { border-color: rgba(52,199,89,0.2); }
+
+        .empty-state {
+            text-align: center;
+            padding: 40px 20px;
+            color: var(--text-muted);
+            font-size: 14px;
+        }
+
+        .empty-state span { font-size: 36px; display: block; margin-bottom: 10px; }
+
+        /* ===== TOAST ===== */
         .toast-container {
             position: fixed;
             bottom: 20px;
@@ -289,16 +449,28 @@
             transition: transform 0.3s ease-in-out;
         }
 
-        .toast.show {
-            transform: translateX(0);
+        .toast.show { transform: translateX(0); }
+        .toast.toast-success { border-right-color: var(--accent-green); }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 650px) {
+            body { padding: 12px; }
+            .grid-2, .grid-3 { grid-template-columns: 1fr; }
+            .stats-grid { grid-template-columns: 1fr 1fr; }
+            .theme-toggle-btn { position: static; margin: 15px auto 0; width: fit-content; }
+            .revenue-entry-row { grid-template-columns: 1fr 1fr; }
+            .revenue-entry-row .form-group:last-of-type { grid-column: 1 / -1; }
+            .alert-entry-row { grid-template-columns: 1fr 1fr; }
+            .alert-entry-row .form-group:last-of-type { grid-column: 1 / -1; }
+            .contract-actions { flex-direction: column; }
+            .tab-content { padding: 16px; }
         }
 
-        .toast.toast-success {
-            border-right-color: var(--accent-green);
+        @media (max-width: 400px) {
+            .stats-grid { grid-template-columns: 1fr; }
         }
     </style>
     <script>
-        // كود فحص المود المفضل وتشغيله فوراً قبل تحميل الصفحة لمنع الوميض الأبيض
         const savedTheme = localStorage.getItem('trend_theme') || 'dark';
         document.documentElement.setAttribute('data-theme', savedTheme);
     </script>
@@ -307,21 +479,21 @@
 
 <div class="container">
     <header>
-        <!-- زرار التبديل المودرن -->
         <button class="theme-toggle-btn" onclick="toggleTheme()">
-            <span id="theme-icon">☀️</span> <span id="theme-text">لايت مود</span>
+            <span id="theme-icon">☀️</span> <span id="theme-text">Light Mode</span>
         </button>
-        
         <h1>Trend <span>Tools</span></h1>
         <p>الأدوات المصغرة لتسهيل العمل اليومي لشركة تأجير السيارات</p>
     </header>
 
-    <!-- Navigation Tabs -->
     <div class="tabs-nav">
-        <button class="tab-btn active" onclick="openTab('whatsapp-builder')">📱 رسائل الواتساب</button>
-        <button class="tab-btn" onclick="openTab('calculator')">🧮 حاسبة التأخير والغرامات</button>
-        <button class="tab-btn" onclick="openTab('sanitizer')">🔍 تنظيف أرقام التليفونات</button>
-        <button class="tab-btn" onclick="openTab('notepad')">📝 المفكرة السريعة</button>
+        <button class="tab-btn active" onclick="openTab('whatsapp-builder', this)">📱 رسائل الواتساب</button>
+        <button class="tab-btn" onclick="openTab('calculator', this)">🧮 حاسبة التأخير</button>
+        <button class="tab-btn" onclick="openTab('contract', this)">📄 مولد العقود</button>
+        <button class="tab-btn" onclick="openTab('revenue', this)">📊 الإيرادات</button>
+        <button class="tab-btn" onclick="openTab('alerts', this)">🔔 تنبيهات الرخص</button>
+        <button class="tab-btn" onclick="openTab('sanitizer', this)">🔍 تنظيف الأرقام</button>
+        <button class="tab-btn" onclick="openTab('notepad', this)">📝 المفكرة</button>
     </div>
 
     <!-- Tab 1: WhatsApp Builder -->
@@ -334,7 +506,7 @@
             </div>
             <div class="form-group">
                 <label>اسم العميل</label>
-                <input type="text" id="wa-name" placeholder="مثال: أ/ محمد محمد المعتصم بالله">
+                <input type="text" id="wa-name" placeholder="مثال: أ/ محمد محمد">
             </div>
         </div>
         <div class="grid-2">
@@ -344,11 +516,10 @@
             </div>
             <div class="form-group">
                 <label>الميعاد / التفاصيل الإضافية</label>
-                <input type="text" id="wa-time" placeholder="مثال: تفاصيل إضافية / اليوم الساعة 5 مساءً">
+                <input type="text" id="wa-time" placeholder="مثال: اليوم الساعة 5 مساءً">
             </div>
         </div>
-        
-        <label>اختر نوع الرسالة لتوليدها وإرسالها فوراً:</label>
+        <label>اختر نوع الرسالة:</label>
         <div class="template-tags">
             <button class="tag-btn" onclick="generateWA('welcome')">👋 رسالة ترحيب وأسعار</button>
             <button class="tag-btn" onclick="generateWA('terms')">📜 شروط التأجير والأوراق</button>
@@ -362,11 +533,11 @@
         <h2>🧮 حاسبة التأخير والغرامات</h2>
         <div class="grid-2">
             <div class="form-group">
-                <label>التاريخ و وقت الاستلام المتوقع</label>
+                <label>التاريخ ووقت الاستلام المتوقع</label>
                 <input type="datetime-local" id="calc-start">
             </div>
             <div class="form-group">
-                <label>التاريخ و وقت الإرجاع الفعلي</label>
+                <label>التاريخ ووقت الإرجاع الفعلي</label>
                 <input type="datetime-local" id="calc-end">
             </div>
         </div>
@@ -381,14 +552,185 @@
             </div>
         </div>
         <button class="btn" onclick="calculateFees()">احسب التكلفة والغرامات</button>
-
         <div id="calc-result" class="result-box" style="display:none;">
             <div class="result-header"><span>نتائج الحساب:</span></div>
             <div id="calc-text"></div>
         </div>
     </div>
 
-    <!-- Tab 3: Sanitizer -->
+    <!-- Tab 3: Contract Generator -->
+    <div id="contract" class="tab-content">
+        <h2>📄 مولد بيانات العقد</h2>
+
+        <h3>👤 بيانات العميل</h3>
+        <div class="grid-2">
+            <div class="form-group">
+                <label>اسم العميل كاملاً</label>
+                <input type="text" id="c-name" placeholder="أ/ محمد أحمد علي">
+            </div>
+            <div class="form-group">
+                <label>رقم الهاتف</label>
+                <input type="text" id="c-phone" placeholder="01xxxxxxxxx" oninput="this.value = this.value.replace(/[^0-9]/g, '')">
+            </div>
+        </div>
+        <div class="grid-2">
+            <div class="form-group">
+                <label>رقم البطاقة / جواز السفر</label>
+                <input type="text" id="c-id" placeholder="رقم الهوية">
+            </div>
+            <div class="form-group">
+                <label>العنوان</label>
+                <input type="text" id="c-address" placeholder="المدينة، الحي">
+            </div>
+        </div>
+
+        <h3>🚗 بيانات العربية</h3>
+        <div class="grid-3">
+            <div class="form-group">
+                <label>نوع وموديل العربية</label>
+                <input type="text" id="c-car" placeholder="تيوتا كورولا 2023">
+            </div>
+            <div class="form-group">
+                <label>رقم اللوحة</label>
+                <input type="text" id="c-plate" placeholder="أ ب ج 1234">
+            </div>
+            <div class="form-group">
+                <label>لون العربية</label>
+                <input type="text" id="c-color" placeholder="أبيض / أسود">
+            </div>
+        </div>
+
+        <h3>📅 بيانات الإيجار</h3>
+        <div class="grid-2">
+            <div class="form-group">
+                <label>تاريخ ووقت الاستلام</label>
+                <input type="datetime-local" id="c-start">
+            </div>
+            <div class="form-group">
+                <label>تاريخ ووقت الإرجاع</label>
+                <input type="datetime-local" id="c-end">
+            </div>
+        </div>
+        <div class="grid-3">
+            <div class="form-group">
+                <label>سعر اليوم (EGP)</label>
+                <input type="number" id="c-price" placeholder="1500" value="1500">
+            </div>
+            <div class="form-group">
+                <label>مبلغ الضمان / التأمين (EGP)</label>
+                <input type="number" id="c-deposit" placeholder="5000" value="5000">
+            </div>
+            <div class="form-group">
+                <label>طريقة الدفع</label>
+                <select id="c-payment">
+                    <option>كاش</option>
+                    <option>تحويل بنكي</option>
+                    <option>فيزا / ماستركارد</option>
+                    <option>إنستاباي</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label>ملاحظات إضافية</label>
+            <textarea id="c-notes" rows="2" placeholder="أي شروط أو ملاحظات خاصة بالعقد ده..."></textarea>
+        </div>
+
+        <button class="btn" onclick="generateContract()">📄 توليد العقد</button>
+
+        <div id="contract-preview" class="contract-preview">
+            <h3 id="contract-title">عقد إيجار سيارة — Trend Car Rental</h3>
+            <div id="contract-body"></div>
+            <div class="contract-actions">
+                <button class="btn btn-green" onclick="copyContract()">📋 نسخ العقد</button>
+                <button class="btn btn-blue" onclick="printContract()">🖨️ طباعة</button>
+                <button class="btn btn-outline" onclick="sendContractWA()">📱 إرسال واتساب</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Tab 4: Revenue -->
+    <div id="revenue" class="tab-content">
+        <h2>📊 ملخص الإيرادات</h2>
+
+        <div class="grid-2" style="margin-bottom:15px;">
+            <div class="form-group" style="margin-bottom:0;">
+                <label>عرض إيرادات:</label>
+                <select id="rev-filter" onchange="renderRevenueSummary()">
+                    <option value="today">اليوم فقط</option>
+                    <option value="week">آخر 7 أيام</option>
+                    <option value="month">آخر 30 يوم</option>
+                    <option value="all">الكل</option>
+                </select>
+            </div>
+            <div style="display:flex; align-items:flex-end;">
+                <button class="btn btn-outline" style="width:100%; margin-top:0;" onclick="clearAllRevenue()">🗑️ مسح كل الإيرادات</button>
+            </div>
+        </div>
+
+        <h3>➕ إضافة إيجار جديد</h3>
+        <div id="revenue-entries">
+            <!-- rows added dynamically -->
+        </div>
+        <button class="btn btn-outline" style="width:auto; margin-top:5px;" onclick="addRevenueRow()">+ إضافة إيجار</button>
+        <button class="btn btn-green" onclick="saveRevenueEntries()">💾 حفظ وتحديث التقرير</button>
+
+        <div id="revenue-summary" style="display:none;">
+            <div class="stats-grid">
+                <div class="stat-card green">
+                    <div class="stat-label">إجمالي الإيرادات</div>
+                    <div class="stat-value" id="rev-total">0</div>
+                    <div style="font-size:11px; color:var(--text-muted); margin-top:4px;">EGP</div>
+                </div>
+                <div class="stat-card blue">
+                    <div class="stat-label">عدد الإيجارات</div>
+                    <div class="stat-value" id="rev-count">0</div>
+                    <div style="font-size:11px; color:var(--text-muted); margin-top:4px;">عقد</div>
+                </div>
+                <div class="stat-card red">
+                    <div class="stat-label">متوسط الإيجار</div>
+                    <div class="stat-value" id="rev-avg">0</div>
+                    <div style="font-size:11px; color:var(--text-muted); margin-top:4px;">EGP</div>
+                </div>
+            </div>
+
+            <table class="revenue-table" id="rev-table">
+                <thead>
+                    <tr>
+                        <th>اسم العميل</th>
+                        <th>العربية</th>
+                        <th>المبلغ (EGP)</th>
+                        <th>التاريخ</th>
+                    </tr>
+                </thead>
+                <tbody id="rev-table-body"></tbody>
+            </table>
+
+            <button class="btn btn-outline" style="width:auto; margin-top:15px;" onclick="copyRevenueReport()">📋 نسخ التقرير</button>
+        </div>
+    </div>
+
+    <!-- Tab 5: Alerts -->
+    <div id="alerts" class="tab-content">
+        <h2>🔔 تنبيهات الرخص والتأمين</h2>
+
+        <h3>➕ إضافة عربية للمتابعة</h3>
+        <div id="alert-entries">
+            <!-- rows added dynamically -->
+        </div>
+        <button class="btn btn-outline" style="width:auto; margin-top:5px;" onclick="addAlertRow()">+ إضافة عربية</button>
+        <button class="btn" onclick="saveAndCheckAlerts()">🔍 حفظ وفحص التنبيهات</button>
+
+        <div id="alerts-result" style="margin-top:20px; display:none;">
+            <div class="result-header" style="margin-bottom:12px;">
+                <span>حالة الرخص والتأمينات:</span>
+                <button class="btn-outline btn" onclick="clearAlerts()" style="font-size:12px; padding:5px 12px; width:auto; margin-top:0;">🗑️ مسح الكل</button>
+            </div>
+            <div id="alerts-cards" class="alert-cards"></div>
+        </div>
+    </div>
+
+    <!-- Tab 6: Sanitizer -->
     <div id="sanitizer" class="tab-content">
         <h2>🔍 أداة فحص وتنسيق أرقام التليفونات</h2>
         <div class="form-group">
@@ -396,14 +738,13 @@
             <textarea id="sanitizer-input" rows="5" placeholder="010 1234 5678&#10;+201234567890&#10;0020156789123"></textarea>
         </div>
         <button class="btn" onclick="sanitizeNumbers()">تنظيف وتنسيق الأرقام</button>
-
         <div id="sanitizer-result" class="result-box" style="display:none;">
             <div class="result-header"><span>الأرقام الجاهزة:</span></div>
             <div id="sanitizer-text"></div>
         </div>
     </div>
 
-    <!-- Tab 4: Notepad -->
+    <!-- Tab 7: Notepad -->
     <div id="notepad" class="tab-content">
         <h2>📝 المفكرة السريعة</h2>
         <div class="form-group">
@@ -420,214 +761,517 @@
         </div>
         <button class="btn btn-green" onclick="shareNotes()">📋 نسخ تقرير الوردية بالكامل</button>
     </div>
-
 </div>
 
-<!-- حاوية التنبيهات المودرن -->
 <div id="toast-container" class="toast-container"></div>
 
 <script>
-    // نظام التنبيهات المودرن (Toast)
-    function showToast(message, type = 'error') {
-        const container = document.getElementById('toast-container');
-        const toast = document.createElement('div');
-        toast.className = `toast ${type === 'success' ? 'toast-success' : ''}`;
-        
-        const icon = type === 'success' ? '✅' : '⚠️';
-        toast.innerHTML = `<span>${icon}</span> <span>${message}</span>`;
-        
-        container.appendChild(toast);
-        
-        setTimeout(() => toast.classList.add('show'), 100);
-        
-        setTimeout(() => {
-            toast.classList.remove('show');
-            setTimeout(() => toast.remove(), 300);
-        }, 3000);
+// ========== TOAST ==========
+function showToast(message, type = 'error') {
+    const container = document.getElementById('toast-container');
+    const toast = document.createElement('div');
+    toast.className = `toast ${type === 'success' ? 'toast-success' : ''}`;
+    toast.innerHTML = `<span>${type === 'success' ? '✅' : '⚠️'}</span> <span>${message}</span>`;
+    container.appendChild(toast);
+    setTimeout(() => toast.classList.add('show'), 100);
+    setTimeout(() => { toast.classList.remove('show'); setTimeout(() => toast.remove(), 300); }, 3500);
+}
+
+// ========== TABS ==========
+function openTab(tabId, btn) {
+    document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.getElementById(tabId).classList.add('active');
+    btn.classList.add('active');
+}
+
+// ========== THEME ==========
+function updateThemeUI(theme) {
+    document.getElementById('theme-icon').innerText = theme === 'light' ? '🌙' : '☀️';
+    document.getElementById('theme-text').innerText = theme === 'light' ? 'Dark Mode' : 'Light Mode';
+}
+
+function toggleTheme() {
+    const current = document.documentElement.getAttribute('data-theme');
+    const next = current === 'light' ? 'dark' : 'light';
+    document.documentElement.setAttribute('data-theme', next);
+    localStorage.setItem('trend_theme', next);
+    updateThemeUI(next);
+    showToast(`تم التغيير إلى ${next === 'light' ? 'الوضع المضيء' : 'الوضع المظلم'}`, 'success');
+}
+
+// ========== WHATSAPP ==========
+function generateWA(type) {
+    let phone = document.getElementById('wa-phone').value.trim();
+    let name = document.getElementById('wa-name').value.trim() || 'عميلنا العزيز';
+    let car = document.getElementById('wa-car').value.trim() || 'العربية المحددة';
+    let time = document.getElementById('wa-time').value.trim() || 'الموعد المتفق عليه';
+
+    if (!phone) { showToast('يرجى كتابة رقم الهاتف أولاً'); return; }
+
+    phone = phone.replace(/\D/g, '');
+    if (phone.startsWith('0')) phone = '2' + phone;
+    if (!phone.startsWith('2')) phone = '2' + phone;
+
+    let msg = '';
+    if (type === 'welcome') {
+        msg = `أهلاً بك يا ${name} في Trend Car Rental 🚗\nبنأكد لحضرتك إتاحة العربية ${car} الي استفسرت عنها. تفاصيل الأسعار والخصومات الحالية تم تجهيزها لك. حابب تشرفنا امتى؟`;
+    } else if (type === 'terms') {
+        msg = `عزيزنا ${name}، شروط تأجير ${car} في Trend Car Rental هي:\n1. صورة البطاقة الشخصية / جواز السفر (ساري).\n2. رخصة قيادة سارية.\n3. إيصال مرافق أو ضمان مالي.\nبانتظار تشريفك في الموعد المتفق عليه!`;
+    } else if (type === 'remind') {
+        msg = `تذكير لـ ${name}: بنفكرك بمعاد استلام عربيتك ${car} المجهز لك بالتمام في تمام الساعة ${time}. شرفنا في الفرع واستمتع برحلتك! ✨`;
+    } else if (type === 'return') {
+        msg = `أهلاً ${name}، نرجو أن تكون تجربتك مع Trend Car Rental ممتازة. بنفكرك إن ميعاد تسليم العربية ${car} هو ${time}. تحياتنا لك!`;
     }
 
-    // التنقل بين الألسنة (Tabs)
-    function openTab(tabId) {
-        document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
-        document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
-        document.getElementById(tabId).classList.add('active');
-        event.currentTarget.classList.add('active');
+    window.open(`https://wa.me/${phone}?text=${encodeURIComponent(msg)}`, '_blank');
+}
+
+// ========== CALCULATOR ==========
+function calculateFees() {
+    let start = document.getElementById('calc-start').value;
+    let end = document.getElementById('calc-end').value;
+    let dayPrice = parseFloat(document.getElementById('calc-day-price').value) || 0;
+    let hourPrice = parseFloat(document.getElementById('calc-hour-price').value) || 0;
+
+    if (!start || !end) { showToast('يرجى اختيار التواريخ كاملة'); return; }
+
+    let diffMs = new Date(end) - new Date(start);
+    if (diffMs < 0) { showToast('تاريخ الإرجاع لا يمكن أن يكون قبل تاريخ الاستلام!'); return; }
+
+    let diffHours = diffMs / (1000 * 60 * 60);
+    let days = Math.floor(diffHours / 24);
+    let remainingHours = Math.ceil(diffHours % 24);
+    let totalRentalPrice = days * dayPrice;
+    let lateFees = 0;
+
+    if (days === 0 && diffHours > 0) { totalRentalPrice = dayPrice; remainingHours = 0; }
+    else if (remainingHours > 2) { lateFees = remainingHours * hourPrice; }
+    else { remainingHours = 0; }
+
+    let total = totalRentalPrice + lateFees;
+    let resultBox = document.getElementById('calc-result');
+    document.getElementById('calc-text').innerHTML = `
+        <p>⏳ <b>مدة الإيجار الإجمالية:</b> ${days} يوم و ${Math.ceil(diffHours % 24)} ساعة.</p>
+        <p>💵 <b>تكلفة الإيجار الأساسية (${days} يوم):</b> ${totalRentalPrice.toLocaleString()} EGP</p>
+        <p>⚠️ <b>ساعات التأخير المحتسبة:</b> ${remainingHours} ساعة (غرامة: ${lateFees.toLocaleString()} EGP)</p>
+        <hr style="margin:10px 0; border-color:var(--border-color);">
+        <p style="font-size:16px; color:var(--primary-color);">💰 <b>الإجمالي المطلوب دفعه: ${total.toLocaleString()} EGP</b></p>
+    `;
+    resultBox.style.display = 'block';
+}
+
+// ========== CONTRACT ==========
+function generateContract() {
+    let name = document.getElementById('c-name').value.trim();
+    let phone = document.getElementById('c-phone').value.trim();
+    let cid = document.getElementById('c-id').value.trim();
+    let address = document.getElementById('c-address').value.trim();
+    let car = document.getElementById('c-car').value.trim();
+    let plate = document.getElementById('c-plate').value.trim();
+    let color = document.getElementById('c-color').value.trim();
+    let start = document.getElementById('c-start').value;
+    let end = document.getElementById('c-end').value;
+    let price = document.getElementById('c-price').value;
+    let deposit = document.getElementById('c-deposit').value;
+    let payment = document.getElementById('c-payment').value;
+    let notes = document.getElementById('c-notes').value.trim();
+
+    if (!name || !car || !start || !end) {
+        showToast('يرجى ملء بيانات العميل، العربية، والتواريخ على الأقل');
+        return;
     }
 
-    // تبديل المود (Light / Dark) مع الحفظ التلقائي في الـ LocalStorage
-    function updateThemeUI(theme) {
-        const icon = document.getElementById('theme-icon');
-        const text = document.getElementById('theme-text');
-        if (theme === 'light') {
-            icon.innerText = '🌙';
-            text.innerText = 'Dark Mode';
-        } else {
-            icon.innerText = '☀️';
-            text.innerText = 'Light Mode';
+    let startDate = new Date(start);
+    let endDate = new Date(end);
+    if (endDate <= startDate) { showToast('تاريخ الإرجاع لازم يكون بعد تاريخ الاستلام'); return; }
+
+    let days = Math.ceil((endDate - startDate) / (1000 * 60 * 60 * 24));
+    let total = days * parseFloat(price || 0);
+
+    let fmtStart = startDate.toLocaleString('ar-EG', { dateStyle: 'full', timeStyle: 'short' });
+    let fmtEnd = endDate.toLocaleString('ar-EG', { dateStyle: 'full', timeStyle: 'short' });
+    let today = new Date().toLocaleDateString('ar-EG', { dateStyle: 'full' });
+
+    let body = `
+        <div class="contract-section">
+            <p><strong>تاريخ التحرير:</strong> ${today}</p>
+        </div>
+        <div class="contract-section">
+            <p style="font-weight:700; margin-bottom:8px;">أولاً: بيانات المستأجر</p>
+            <p><strong>الاسم:</strong> ${name}</p>
+            ${phone ? `<p><strong>رقم الهاتف:</strong> ${phone}</p>` : ''}
+            ${cid ? `<p><strong>رقم الهوية / الجواز:</strong> ${cid}</p>` : ''}
+            ${address ? `<p><strong>العنوان:</strong> ${address}</p>` : ''}
+        </div>
+        <div class="contract-section">
+            <p style="font-weight:700; margin-bottom:8px;">ثانياً: بيانات السيارة</p>
+            <p><strong>النوع والموديل:</strong> ${car}</p>
+            ${plate ? `<p><strong>رقم اللوحة:</strong> ${plate}</p>` : ''}
+            ${color ? `<p><strong>اللون:</strong> ${color}</p>` : ''}
+        </div>
+        <div class="contract-section">
+            <p style="font-weight:700; margin-bottom:8px;">ثالثاً: تفاصيل الإيجار</p>
+            <p><strong>تاريخ الاستلام:</strong> ${fmtStart}</p>
+            <p><strong>تاريخ الإرجاع:</strong> ${fmtEnd}</p>
+            <p><strong>مدة الإيجار:</strong> ${days} يوم</p>
+            <p><strong>سعر اليوم:</strong> ${parseFloat(price).toLocaleString()} EGP</p>
+            <p><strong>إجمالي الإيجار:</strong> ${total.toLocaleString()} EGP</p>
+            <p><strong>مبلغ الضمان / التأمين:</strong> ${parseFloat(deposit).toLocaleString()} EGP</p>
+            <p><strong>طريقة الدفع:</strong> ${payment}</p>
+        </div>
+        ${notes ? `<div class="contract-section"><p style="font-weight:700; margin-bottom:8px;">ملاحظات</p><p>${notes}</p></div>` : ''}
+        <div class="contract-section" style="border-color: var(--text-muted);">
+            <p style="font-weight:700; margin-bottom:12px;">توقيعات الطرفين</p>
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:20px; margin-top:10px;">
+                <div>
+                    <p style="color:var(--text-muted); font-size:13px;">توقيع المستأجر</p>
+                    <div style="border-bottom:1px dashed var(--border-color); margin-top:30px;"></div>
+                    <p style="font-size:12px; color:var(--text-muted); margin-top:6px;">${name}</p>
+                </div>
+                <div>
+                    <p style="color:var(--text-muted); font-size:13px;">توقيع الشركة</p>
+                    <div style="border-bottom:1px dashed var(--border-color); margin-top:30px;"></div>
+                    <p style="font-size:12px; color:var(--text-muted); margin-top:6px;">Trend Car Rental</p>
+                </div>
+            </div>
+        </div>
+    `;
+
+    document.getElementById('contract-body').innerHTML = body;
+    let preview = document.getElementById('contract-preview');
+    preview.style.display = 'block';
+    preview.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+    // store for WA send
+    window._contractData = { name, phone, car, fmtStart, fmtEnd, days, price, total, deposit, payment, notes };
+}
+
+function copyContract() {
+    let d = window._contractData;
+    if (!d) return;
+    let text = `📋 عقد إيجار سيارة — Trend Car Rental\n`;
+    text += `═══════════════════════════\n`;
+    text += `👤 المستأجر: ${d.name}\n`;
+    text += `📱 الهاتف: ${d.phone || 'غير محدد'}\n`;
+    text += `🚗 السيارة: ${d.car}\n`;
+    text += `📅 الاستلام: ${d.fmtStart}\n`;
+    text += `📅 الإرجاع: ${d.fmtEnd}\n`;
+    text += `⏳ المدة: ${d.days} يوم\n`;
+    text += `💵 سعر اليوم: ${parseFloat(d.price).toLocaleString()} EGP\n`;
+    text += `💰 الإجمالي: ${d.total.toLocaleString()} EGP\n`;
+    text += `🔒 الضمان: ${parseFloat(d.deposit).toLocaleString()} EGP\n`;
+    text += `💳 الدفع: ${d.payment}\n`;
+    if (d.notes) text += `📝 ملاحظات: ${d.notes}\n`;
+    text += `═══════════════════════════\n`;
+    text += `Trend Car Rental ✅`;
+    navigator.clipboard.writeText(text).then(() => showToast('تم نسخ العقد!', 'success'));
+}
+
+function printContract() {
+    window.print();
+}
+
+function sendContractWA() {
+    let d = window._contractData;
+    if (!d) return;
+    if (!d.phone) { showToast('رقم الهاتف غير موجود في بيانات العقد'); return; }
+    let phone = d.phone.replace(/\D/g, '');
+    if (phone.startsWith('0')) phone = '2' + phone;
+
+    let msg = `📋 *عقد إيجار سيارة — Trend Car Rental*\n\n`;
+    msg += `👤 *المستأجر:* ${d.name}\n`;
+    msg += `🚗 *السيارة:* ${d.car}\n`;
+    msg += `📅 *الاستلام:* ${d.fmtStart}\n`;
+    msg += `📅 *الإرجاع:* ${d.fmtEnd}\n`;
+    msg += `⏳ *المدة:* ${d.days} يوم\n`;
+    msg += `💰 *الإجمالي:* ${d.total.toLocaleString()} EGP\n`;
+    msg += `🔒 *الضمان:* ${parseFloat(d.deposit).toLocaleString()} EGP\n`;
+    if (d.notes) msg += `📝 *ملاحظات:* ${d.notes}`;
+
+    window.open(`https://wa.me/${phone}?text=${encodeURIComponent(msg)}`, '_blank');
+}
+
+// ========== REVENUE ==========
+let revenueEntries = JSON.parse(localStorage.getItem('trend_revenue') || '[]');
+
+function addRevenueRow(data = {}) {
+    let container = document.getElementById('revenue-entries');
+    let id = Date.now();
+    let row = document.createElement('div');
+    row.className = 'revenue-entry-row';
+    row.dataset.id = id;
+    row.innerHTML = `
+        <div class="form-group">
+            <label>اسم العميل</label>
+            <input type="text" class="rev-name" placeholder="أ/ محمد" value="${data.name || ''}">
+        </div>
+        <div class="form-group">
+            <label>نوع العربية</label>
+            <input type="text" class="rev-car" placeholder="تيوتا 2024" value="${data.car || ''}">
+        </div>
+        <div class="form-group">
+            <label>المبلغ (EGP)</label>
+            <input type="number" class="rev-amount" placeholder="3000" value="${data.amount || ''}">
+        </div>
+        <button class="remove-btn" onclick="this.parentElement.remove()">✕</button>
+    `;
+    container.appendChild(row);
+}
+
+function saveRevenueEntries() {
+    let rows = document.querySelectorAll('.revenue-entry-row');
+    let today = new Date().toISOString().split('T')[0];
+    rows.forEach(row => {
+        let name = row.querySelector('.rev-name').value.trim();
+        let car = row.querySelector('.rev-car').value.trim();
+        let amount = parseFloat(row.querySelector('.rev-amount').value) || 0;
+        if (name && amount > 0) {
+            revenueEntries.push({ name, car, amount, date: today });
         }
+    });
+    localStorage.setItem('trend_revenue', JSON.stringify(revenueEntries));
+    document.getElementById('revenue-entries').innerHTML = '';
+    showToast('تم الحفظ بنجاح!', 'success');
+    renderRevenueSummary();
+}
+
+function renderRevenueSummary() {
+    let filter = document.getElementById('rev-filter').value;
+    let now = new Date();
+    let filtered = revenueEntries.filter(e => {
+        let d = new Date(e.date);
+        if (filter === 'today') return e.date === now.toISOString().split('T')[0];
+        if (filter === 'week') return (now - d) <= 7 * 86400000;
+        if (filter === 'month') return (now - d) <= 30 * 86400000;
+        return true;
+    });
+
+    let total = filtered.reduce((s, e) => s + e.amount, 0);
+    let count = filtered.length;
+    let avg = count ? Math.round(total / count) : 0;
+
+    document.getElementById('rev-total').textContent = total.toLocaleString();
+    document.getElementById('rev-count').textContent = count;
+    document.getElementById('rev-avg').textContent = avg.toLocaleString();
+
+    let tbody = document.getElementById('rev-table-body');
+    tbody.innerHTML = filtered.length === 0
+        ? `<tr><td colspan="4" style="text-align:center; color:var(--text-muted); padding:20px;">لا يوجد إيرادات في هذه الفترة</td></tr>`
+        : filtered.slice().reverse().map(e => `
+            <tr>
+                <td>${e.name}</td>
+                <td>${e.car || '—'}</td>
+                <td style="color:var(--accent-green); font-weight:700;">${e.amount.toLocaleString()}</td>
+                <td>${new Date(e.date).toLocaleDateString('ar-EG')}</td>
+            </tr>
+        `).join('');
+
+    document.getElementById('revenue-summary').style.display = 'block';
+}
+
+function clearAllRevenue() {
+    if (!confirm('هتمسح كل الإيرادات المحفوظة؟')) return;
+    revenueEntries = [];
+    localStorage.removeItem('trend_revenue');
+    renderRevenueSummary();
+    showToast('تم مسح كل الإيرادات', 'success');
+}
+
+function copyRevenueReport() {
+    let filter = document.getElementById('rev-filter').value;
+    let filterLabel = { today: 'اليوم', week: 'آخر 7 أيام', month: 'آخر 30 يوم', all: 'الكل' }[filter];
+    let total = document.getElementById('rev-total').textContent;
+    let count = document.getElementById('rev-count').textContent;
+
+    let text = `📊 *تقرير الإيرادات — Trend Car Rental*\n`;
+    text += `📅 الفترة: ${filterLabel}\n`;
+    text += `💰 الإجمالي: ${total} EGP\n`;
+    text += `📋 عدد الإيجارات: ${count}\n`;
+    text += `═══════════════════════════\n`;
+    text += `Trend Car Rental ✅`;
+    navigator.clipboard.writeText(text).then(() => showToast('تم نسخ التقرير!', 'success'));
+}
+
+// ========== ALERTS ==========
+let alertData = JSON.parse(localStorage.getItem('trend_alerts') || '[]');
+
+function addAlertRow(data = {}) {
+    let container = document.getElementById('alert-entries');
+    let row = document.createElement('div');
+    row.className = 'alert-entry-row';
+    row.innerHTML = `
+        <div class="form-group">
+            <label>اسم / رقم العربية</label>
+            <input type="text" class="al-car" placeholder="تيوتا - أ ب 123" value="${data.car || ''}">
+        </div>
+        <div class="form-group">
+            <label>انتهاء الرخصة</label>
+            <input type="date" class="al-license" value="${data.license || ''}">
+        </div>
+        <div class="form-group">
+            <label>انتهاء التأمين</label>
+            <input type="date" class="al-insurance" value="${data.insurance || ''}">
+        </div>
+        <button class="remove-btn" onclick="this.parentElement.remove()">✕</button>
+    `;
+    container.appendChild(row);
+}
+
+function saveAndCheckAlerts() {
+    let rows = document.querySelectorAll('.alert-entry-row');
+    alertData = [];
+    rows.forEach(row => {
+        let car = row.querySelector('.al-car').value.trim();
+        let license = row.querySelector('.al-license').value;
+        let insurance = row.querySelector('.al-insurance').value;
+        if (car) alertData.push({ car, license, insurance });
+    });
+    localStorage.setItem('trend_alerts', JSON.stringify(alertData));
+    renderAlerts();
+    showToast('تم الحفظ والفحص!', 'success');
+}
+
+function renderAlerts() {
+    if (alertData.length === 0) {
+        document.getElementById('alerts-result').style.display = 'none';
+        return;
     }
 
-    function toggleTheme() {
-        const currentTheme = document.documentElement.getAttribute('data-theme');
-        const newTheme = currentTheme === 'light' ? 'dark' : 'light';
-        
-        document.documentElement.setAttribute('data-theme', newTheme);
-        localStorage.setItem('trend_theme', newTheme);
-        updateThemeUI(newTheme);
-        showToast(`تم التغيير إلى ${newTheme === 'light' ? 'الوضع المضيء' : 'الوضع المظلم'}`, 'success');
-    }
+    let today = new Date();
+    today.setHours(0, 0, 0, 0);
+    let html = '';
 
-    // توليد رسائل الواتساب
-    function generateWA(type) {
-        let phone = document.getElementById('wa-phone').value.trim();
-        let name = document.getElementById('wa-name').value.trim() || 'عميلنا العزيز';
-        let car = document.getElementById('wa-car').value.trim() || 'العربية المحددة';
-        let time = document.getElementById('wa-time').value.trim() || 'الموعد المتفق عليه';
+    // sort by urgency
+    let items = [];
+    alertData.forEach(entry => {
+        let checks = [];
+        if (entry.license) checks.push({ label: 'الرخصة', date: entry.license });
+        if (entry.insurance) checks.push({ label: 'التأمين', date: entry.insurance });
+        if (checks.length === 0) checks.push({ label: 'لا يوجد تاريخ', date: null });
+        checks.forEach(c => items.push({ car: entry.car, ...c }));
+    });
 
-        if(!phone) {
-            showToast('يرجى كتابة رقم الهاتف أولاً');
-            return;
-        }
+    items.sort((a, b) => {
+        if (!a.date) return 1;
+        if (!b.date) return -1;
+        return new Date(a.date) - new Date(b.date);
+    });
 
-        phone = phone.replace(/\D/g, '');
-        if(phone.startsWith('0')) phone = '2' + phone;
-        if(!phone.startsWith('2')) phone = '2' + phone;
+    items.forEach(item => {
+        let daysLeft = null;
+        let statusClass = 'ok';
+        let badgeClass = 'badge-green';
+        let badgeText = '✓';
+        let subText = '';
 
-        let msg = '';
-        if(type === 'welcome') {
-            msg = `أهلاً بك يا ${name} في Trend Car Rental 🚗\nبنأكد لحضرتك إتاحة العربية ${car} الي استفسرت عنها. تفاصيل الأسعار والخصومات الحالية تم تجهيزها لك. حابب تشرفنا امتى؟`;
-        } else if(type === 'terms') {
-            msg = `عزيزنا ${name}، شروط تأجير ${car} في Trend Car Rental هي:\n1. صورة البطاقة الشخصية / جواز السفر (ساري).\n2. رخصة قيادة سارية.\n3. إيصال مرافق أو ضمان مالي.\nبانتظار تشريفك في الموعد المتفق عليه!`;
-        } else if(type === 'remind') {
-            msg = `تذكير لـ ${name}: بنفكرك بمعاد استلام عربيتك ${car} المجهز لك بالتمام في تمام الساعة ${time}. شرفنا في الفرع واستمتع برحلتك! ✨`;
-        } else if(type === 'return') {
-            msg = `أهلاً ${name}، نرجو أن تكون تجربتك مع Trend Car Rental ممتازة. بنفكرك إن ميعاد تسليم العربية ${car} هو ${time}. تحياتنا لك!`;
-        }
+        if (item.date) {
+            let expDate = new Date(item.date);
+            expDate.setHours(0, 0, 0, 0);
+            daysLeft = Math.round((expDate - today) / 86400000);
+            let fmtDate = expDate.toLocaleDateString('ar-EG', { dateStyle: 'medium' });
 
-        let url = `https://wa.me/${phone}?text=${encodeURIComponent(msg)}`;
-        window.open(url, '_blank');
-    }
-
-    // حساب التكلفة والغرامات
-    function calculateFees() {
-        let start = document.getElementById('calc-start').value;
-        let end = document.getElementById('calc-end').value;
-        let dayPrice = parseFloat(document.getElementById('calc-day-price').value) || 0;
-        let hourPrice = parseFloat(document.getElementById('calc-hour-price').value) || 0;
-
-        if(!start || !end) {
-            showToast('يرجى اختيار التواريخ كاملة');
-            return;
-        }
-
-        let startDate = new Date(start);
-        let endDate = new Date(end);
-        let diffMs = endDate - startDate;
-
-        if(diffMs < 0) {
-            showToast('تاريخ الإرجاع لا يمكن أن يكون قبل تاريخ الاستلام!');
-            return;
-        }
-
-        let diffHours = diffMs / (1000 * 60 * 60);
-        let days = Math.floor(diffHours / 24);
-        let remainingHours = Math.ceil(diffHours % 24);
-
-        let totalRentalPrice = days * dayPrice;
-        let lateFees = 0;
-        
-        if (days === 0 && diffHours > 0) {
-            totalRentalPrice = dayPrice;
-            remainingHours = 0;
-        } else if (remainingHours > 2) { 
-            lateFees = remainingHours * hourPrice;
-        } else {
-            remainingHours = 0;
-        }
-
-        let total = totalRentalPrice + lateFees;
-
-        let resultBox = document.getElementById('calc-result');
-        let resultText = document.getElementById('calc-text');
-        
-        resultText.innerHTML = `
-            <p>⏳ <b>مدة الإيجار الإجمالية:</b> ${days} يوم و ${Math.ceil(diffHours % 24)} ساعة.</p>
-            <p>💵 <b>تكلفة الإيجار الأساسية (${days} يوم):</b> ${totalRentalPrice} EGP</p>
-            <p>⚠️ <b>ساعات التأخير المحتسبة:</b> ${remainingHours} ساعة (غرامة: ${lateFees} EGP)</p>
-            <hr style="margin:10px 0; border-color:var(--border-color);">
-            <p style="font-size:16px; color:var(--primary-color);">💰 <b>الإجمالي المطلوب دفعه: ${total} EGP</b></p>
-        `;
-        resultBox.style.display = 'block';
-    }
-
-    // تنظيف وتنسيق الأرقام
-    function sanitizeNumbers() {
-        let input = document.getElementById('sanitizer-input').value;
-        let lines = input.split('\n');
-        let htmlResult = '';
-
-        lines.forEach(line => {
-            let clean = line.replace(/\D/g, '');
-            if(!clean) return;
-            
-            if(clean.startsWith('002')) clean = clean.substring(2);
-            else if(clean.startsWith('0')) clean = '2' + clean;
-            else if(!clean.startsWith('2') && clean.length === 10) clean = '20' + clean;
-            
-            if(clean) {
-                let displayNum = '+' + clean;
-                htmlResult += `
-                    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px; background:var(--input-bg); padding:8px; border-radius:6px; border:1px solid var(--border-color);">
-                        <span>📱 ${displayNum}</span>
-                        <button class="tag-btn" style="border-color:var(--accent-green); color:var(--accent-green);" onclick="window.open('https://wa.me/${clean}', '_blank')">فتح واتساب</button>
-                    </div>
-                `;
+            if (daysLeft < 0) {
+                statusClass = 'expired';
+                badgeClass = 'badge-red';
+                badgeText = 'منتهي';
+                subText = `منتهي منذ ${Math.abs(daysLeft)} يوم — ${fmtDate}`;
+            } else if (daysLeft <= 30) {
+                statusClass = 'warning';
+                badgeClass = 'badge-orange';
+                badgeText = `${daysLeft}\nيوم`;
+                subText = `باقي ${daysLeft} يوم — ${fmtDate}`;
+            } else {
+                badgeText = `${daysLeft}\nيوم`;
+                subText = `باقي ${daysLeft} يوم — ${fmtDate}`;
             }
-        });
+        } else {
+            subText = 'لم يتم إدخال تاريخ';
+            badgeClass = 'badge-green';
+            badgeText = '—';
+        }
 
-        let resultBox = document.getElementById('sanitizer-result');
-        let resultText = document.getElementById('sanitizer-text');
-        resultText.innerHTML = htmlResult || '<p style="color:var(--text-muted)">لم يتم العثور على أرقام صالحة.</p>';
-        resultBox.style.display = 'block';
+        html += `
+            <div class="alert-card ${statusClass}">
+                <div class="alert-badge ${badgeClass}">${badgeText.replace('\n', '<br>')}</div>
+                <div class="alert-info">
+                    <div class="alert-title">🚗 ${item.car}</div>
+                    <div class="alert-sub">${item.label}: ${subText}</div>
+                </div>
+            </div>
+        `;
+    });
+
+    document.getElementById('alerts-cards').innerHTML = html;
+    document.getElementById('alerts-result').style.display = 'block';
+}
+
+function clearAlerts() {
+    if (!confirm('هتمسح كل بيانات الرخص والتأمين؟')) return;
+    alertData = [];
+    localStorage.removeItem('trend_alerts');
+    document.getElementById('alert-entries').innerHTML = '';
+    document.getElementById('alerts-result').style.display = 'none';
+    showToast('تم مسح الكل', 'success');
+}
+
+// ========== SANITIZER ==========
+function sanitizeNumbers() {
+    let lines = document.getElementById('sanitizer-input').value.split('\n');
+    let htmlResult = '';
+    lines.forEach(line => {
+        let clean = line.replace(/\D/g, '');
+        if (!clean) return;
+        if (clean.startsWith('002')) clean = clean.substring(2);
+        else if (clean.startsWith('0')) clean = '2' + clean;
+        else if (!clean.startsWith('2') && clean.length === 10) clean = '20' + clean;
+        if (clean) {
+            htmlResult += `
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px; background:var(--input-bg); padding:8px; border-radius:6px; border:1px solid var(--border-color);">
+                    <span>📱 +${clean}</span>
+                    <button class="tag-btn" style="border-color:var(--accent-green); color:var(--accent-green);" onclick="window.open('https://wa.me/${clean}', '_blank')">فتح واتساب</button>
+                </div>
+            `;
+        }
+    });
+    let resultBox = document.getElementById('sanitizer-result');
+    document.getElementById('sanitizer-text').innerHTML = htmlResult || '<p style="color:var(--text-muted)">لم يتم العثور على أرقام صالحة.</p>';
+    resultBox.style.display = 'block';
+}
+
+// ========== NOTEPAD ==========
+function shareNotes() {
+    let report = `📋 *تقرير تسليم الوردية - Trend Car Rental*\n\n`;
+    report += `🚗 *عربيات خروج اليوم:*\n${document.getElementById('note-out').value || 'لا يوجد'}\n\n`;
+    report += `🔧 *عربيات دخول وصيانة:*\n${document.getElementById('note-in').value || 'لا يوجد'}\n\n`;
+    report += `💰 *معلقات مالية وحسابات:*\n${document.getElementById('note-money').value || 'لا يوجد'}`;
+    navigator.clipboard.writeText(report).then(() => showToast('تم نسخ التقرير بنجاح!', 'success'));
+}
+
+// ========== INIT ==========
+window.onload = function () {
+    updateThemeUI(document.documentElement.getAttribute('data-theme') || 'dark');
+
+    // init revenue rows
+    if (revenueEntries.length > 0) renderRevenueSummary();
+    else addRevenueRow();
+
+    // init alert rows
+    if (alertData.length > 0) {
+        alertData.forEach(d => addAlertRow(d));
+        renderAlerts();
+    } else {
+        addAlertRow();
     }
 
-    // نسخ تقرير الوردية
-    function shareNotes() {
-        let outNotes = document.getElementById('note-out').value;
-        let inNotes = document.getElementById('note-in').value;
-        let moneyNotes = document.getElementById('note-money').value;
-
-        let report = `📋 *تقرير تسليم الوردية - Trend Car Rental*\n\n`;
-        report += `🚗 *عربيات خروج اليوم:*\n${outNotes || 'لا يوجد'}\n\n`;
-        report += `🔧 *عربيات دخول وصيانة:*\n${inNotes || 'لا يوجد'}\n\n`;
-        report += `💰 *معلقات مالية وحسابات:*\n${moneyNotes || 'لا يوجد'}`;
-
-        navigator.clipboard.writeText(report).then(() => {
-            showToast('تم نسخ التقرير بنجاح! جاهز للصق في جروب الواتساب.', 'success');
-        });
-    }
-
-    // تصفير كل المدخلات عند عمل ريفريش للصفحة
-    window.onload = function() {
-        // تحديث واجهة زرار المود بناءً على المود الحالي المخزن
-        const currentTheme = document.documentElement.getAttribute('data-theme') || 'dark';
-        updateThemeUI(currentTheme);
-
-        // تصفير الخانات
-        document.getElementById('wa-phone').value = '';
-        document.getElementById('wa-name').value = '';
-        document.getElementById('wa-car').value = '';
-        document.getElementById('wa-time').value = '';
-        
-        document.getElementById('calc-start').value = '';
-        document.getElementById('calc-end').value = '';
-        
-        document.getElementById('sanitizer-input').value = '';
-
-        document.getElementById('note-out').value = '';
-        document.getElementById('note-in').value = '';
-        document.getElementById('note-money').value = '';
-    };
+    // clear volatile inputs
+    ['wa-phone','wa-name','wa-car','wa-time','calc-start','calc-end','sanitizer-input',
+     'note-out','note-in','note-money','c-name','c-phone','c-id','c-address',
+     'c-car','c-plate','c-color','c-start','c-end','c-notes'].forEach(id => {
+        let el = document.getElementById(id);
+        if (el) el.value = '';
+    });
+};
 </script>
 </body>
 </html>
