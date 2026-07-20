@@ -1,0 +1,1876 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trend Tools - أدوات العمل اليومية</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #121214;
+            --card-bg: #1a1a1e;
+            --primary-color: #00b8b8;
+            --primary-hover: #009999;
+            --text-color: #f1f1f4;
+            --text-muted: #a1a1aa;
+            --border-color: #2a2a30;
+            --accent-green: #34c759;
+            --accent-orange: #ff9500;
+            --accent-blue: #0a84ff;
+            --input-bg: #222227;
+        }
+
+        [data-theme="light"] {
+            --bg-color: #f4f4f7;
+            --card-bg: #ffffff;
+            --primary-color: #00b8b8;
+            --primary-hover: #009999;
+            --text-color: #1c1c1e;
+            --text-muted: #666668;
+            --border-color: #d1d1d6;
+            --accent-green: #34c759;
+            --accent-orange: #ff9500;
+            --accent-blue: #0a84ff;
+            --input-bg: #f2f2f7;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Cairo', sans-serif;
+            transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid var(--border-color);
+            position: relative;
+        }
+
+        header h1 { color: var(--text-color); font-size: 28px; font-weight: 700; }
+        header h1 span { color: var(--primary-color); }
+        header p { color: var(--text-muted); font-size: 14px; margin-top: 5px; }
+
+        .theme-toggle-btn {
+            position: absolute;
+            top: 0;
+            left: 0;
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            color: var(--text-color);
+            padding: 8px 14px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 13px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .tabs-nav {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 25px;
+            overflow-x: auto;
+            padding-bottom: 8px;
+        }
+
+        .tabs-nav::-webkit-scrollbar { height: 4px; }
+        .tabs-nav::-webkit-scrollbar-track { background: var(--bg-color); }
+        .tabs-nav::-webkit-scrollbar-thumb { background: var(--border-color); border-radius: 4px; }
+
+        .tab-btn {
+            background: var(--card-bg);
+            color: var(--text-muted);
+            border: 1px solid var(--border-color);
+            padding: 10px 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            white-space: nowrap;
+            font-size: 13px;
+        }
+
+        .tab-btn:hover { color: var(--text-color); border-color: var(--text-muted); }
+        .tab-btn.active { background: var(--primary-color); color: #fff; border-color: var(--primary-color); }
+
+        .tab-content {
+            display: none;
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .tab-content.active { display: block; }
+
+        h2 {
+            font-size: 20px;
+            margin-bottom: 20px;
+            color: var(--text-color);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        h3 {
+            font-size: 15px;
+            color: var(--text-muted);
+            margin: 20px 0 12px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .form-group { margin-bottom: 15px; }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: var(--text-muted);
+            font-size: 14px;
+        }
+
+        input, select, textarea {
+            width: 100%;
+            background: var(--input-bg);
+            border: 1px solid var(--border-color);
+            color: var(--text-color);
+            padding: 12px;
+            border-radius: 8px;
+            font-size: 14px;
+            outline: none;
+            font-family: 'Cairo', sans-serif;
+        }
+
+        input:focus, select:focus, textarea:focus { border-color: var(--primary-color); }
+
+        select option { background: var(--card-bg); }
+
+        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+        .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 15px; }
+
+        .btn {
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            font-family: 'Cairo', sans-serif;
+            width: 100%;
+            margin-top: 10px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            font-size: 14px;
+        }
+
+        .btn:hover { background: var(--primary-hover); }
+        .btn-green { background: var(--accent-green); }
+        .btn-green:hover { background: #2db34f; }
+        .btn-blue { background: var(--accent-blue); }
+        .btn-blue:hover { background: #0070d8; }
+        .btn-outline {
+            background: transparent;
+            border: 1px solid var(--border-color);
+            color: var(--text-color);
+            width: auto;
+            padding: 8px 16px;
+            margin-top: 0;
+        }
+        .btn-outline:hover { border-color: var(--primary-color); background: transparent; }
+
+        .template-tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 15px; }
+
+        .tag-btn {
+            background: var(--input-bg);
+            border: 1px solid var(--border-color);
+            color: var(--text-color);
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 13px;
+            cursor: pointer;
+            font-family: 'Cairo', sans-serif;
+        }
+
+        .tag-btn:hover { border-color: var(--primary-color); }
+
+        .result-box {
+            background: var(--input-bg);
+            border: 1px solid var(--border-color);
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 20px;
+            word-break: break-word;
+        }
+
+        .result-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: var(--text-muted);
+            font-size: 13px;
+            margin-bottom: 10px;
+        }
+
+        /* ===== CONTRACT STYLES ===== */
+        .contract-preview {
+            background: var(--input-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 20px;
+            margin-top: 20px;
+            line-height: 2;
+            font-size: 14px;
+            display: none;
+        }
+
+        .contract-preview h3 {
+            text-align: center;
+            font-size: 18px;
+            color: var(--primary-color);
+            margin-bottom: 15px;
+            border-bottom: 2px solid var(--primary-color);
+            padding-bottom: 10px;
+            color: var(--text-color);
+        }
+
+        .contract-section {
+            margin-bottom: 15px;
+            padding: 12px;
+            background: var(--card-bg);
+            border-radius: 6px;
+            border-right: 3px solid var(--primary-color);
+        }
+
+        .contract-section p { margin-bottom: 5px; }
+        .contract-section strong { color: var(--primary-color); }
+
+        .contract-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+            flex-wrap: wrap;
+        }
+
+        .contract-actions .btn { width: auto; flex: 1; margin-top: 0; }
+
+        .iqrar-checklist-table { width:100%; border-collapse:collapse; margin-top:8px; font-size:12px; }
+        .iqrar-checklist-table th, .iqrar-checklist-table td { border:1px solid var(--border-color); padding:5px 7px; text-align:right; color:var(--text-color); }
+        .iqrar-checklist-table th { background: var(--input-bg); }
+        .contract-terms-p { font-size:12.5px; line-height:1.6; margin-bottom:4px; }
+
+        .iqrar-diagrams { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin:10px 0; }
+        .iqrar-diagram-item { border:1px solid var(--border-color); border-radius:6px; padding:8px; text-align:center; background: var(--card-bg); }
+        .iqrar-diagram-label { font-weight:700; font-size:14px; color: var(--primary-color); }
+        .iqrar-car-svg { width:100%; height:auto; max-height:80px; }
+
+        /* ===== REVENUE STYLES ===== */
+        .revenue-entry-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr auto;
+            gap: 10px;
+            align-items: end;
+            margin-bottom: 10px;
+            background: var(--input-bg);
+            padding: 12px;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+        }
+
+        .revenue-entry-row .form-group { margin-bottom: 0; }
+
+        .remove-btn {
+            background: rgba(255,59,48,0.1);
+            border: 1px solid var(--primary-color);
+            color: var(--primary-color);
+            padding: 10px 14px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            line-height: 1;
+            font-family: 'Cairo', sans-serif;
+            align-self: flex-end;
+        }
+
+        .remove-btn:hover { background: var(--primary-color); color: white; }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+            margin-top: 20px;
+        }
+
+        .stat-card {
+            background: var(--input-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            padding: 16px;
+            text-align: center;
+        }
+
+        .stat-card .stat-label { font-size: 12px; color: var(--text-muted); margin-bottom: 6px; }
+        .stat-card .stat-value { font-size: 22px; font-weight: 700; }
+        .stat-card.green { border-color: var(--accent-green); }
+        .stat-card.green .stat-value { color: var(--accent-green); }
+        .stat-card.blue { border-color: var(--accent-blue); }
+        .stat-card.blue .stat-value { color: var(--accent-blue); }
+        .stat-card.red { border-color: var(--primary-color); }
+        .stat-card.red .stat-value { color: var(--primary-color); }
+
+        .revenue-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+            font-size: 13px;
+        }
+
+        .revenue-table th {
+            background: var(--input-bg);
+            padding: 10px;
+            text-align: right;
+            color: var(--text-muted);
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .revenue-table td {
+            padding: 10px;
+            border-bottom: 1px solid var(--border-color);
+            color: var(--text-color);
+        }
+
+        .revenue-table tr:last-child td { border-bottom: none; }
+        .revenue-table tr:hover td { background: var(--input-bg); }
+
+        /* ===== ALERTS STYLES ===== */
+        .alert-entry-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr auto;
+            gap: 10px;
+            align-items: end;
+            margin-bottom: 10px;
+            background: var(--input-bg);
+            padding: 12px;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+        }
+
+        .alert-entry-row .form-group { margin-bottom: 0; }
+
+        .alert-cards { margin-top: 20px; display: flex; flex-direction: column; gap: 10px; }
+
+        .alert-card {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 14px 16px;
+            border-radius: 10px;
+            border: 1px solid var(--border-color);
+            background: var(--input-bg);
+        }
+
+        .alert-badge {
+            min-width: 52px;
+            height: 52px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 11px;
+            font-weight: 700;
+            text-align: center;
+            line-height: 1.2;
+            flex-shrink: 0;
+        }
+
+        .badge-red { background: rgba(255,59,48,0.15); color: #ff3b30; border: 2px solid #ff3b30; }
+        .badge-orange { background: rgba(255,149,0,0.15); color: #ff9500; border: 2px solid #ff9500; }
+        .badge-green { background: rgba(52,199,89,0.15); color: #34c759; border: 2px solid #34c759; }
+
+        .alert-info { flex: 1; }
+        .alert-info .alert-title { font-weight: 700; font-size: 14px; }
+        .alert-info .alert-sub { font-size: 12px; color: var(--text-muted); margin-top: 3px; }
+
+        .alert-date {
+            font-size: 13px;
+            color: var(--text-muted);
+            text-align: left;
+            white-space: nowrap;
+        }
+
+        .alert-card.expired { border-color: rgba(255,59,48,0.4); background: rgba(255,59,48,0.05); }
+        .alert-card.warning { border-color: rgba(255,149,0,0.4); background: rgba(255,149,0,0.05); }
+        .alert-card.ok { border-color: rgba(52,199,89,0.2); }
+
+        .empty-state {
+            text-align: center;
+            padding: 40px 20px;
+            color: var(--text-muted);
+            font-size: 14px;
+        }
+
+        .empty-state span { font-size: 36px; display: block; margin-bottom: 10px; }
+
+        /* ===== TOAST ===== */
+        .toast-container {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            z-index: 9999;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .toast {
+            background: var(--card-bg);
+            color: var(--text-color);
+            border-right: 4px solid var(--primary-color);
+            padding: 15px 25px;
+            border-radius: 6px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            font-size: 14px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            min-width: 250px;
+            transform: translateX(-120%);
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .toast.show { transform: translateX(0); }
+        .toast.toast-success { border-right-color: var(--accent-green); }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 650px) {
+            body { padding: 12px; }
+            .grid-2, .grid-3 { grid-template-columns: 1fr; }
+            .stats-grid { grid-template-columns: 1fr 1fr; }
+            .theme-toggle-btn { position: static; margin: 15px auto 0; width: fit-content; }
+            .revenue-entry-row { grid-template-columns: 1fr 1fr; }
+            .revenue-entry-row .form-group:last-of-type { grid-column: 1 / -1; }
+            .alert-entry-row { grid-template-columns: 1fr 1fr; }
+            .alert-entry-row .form-group:last-of-type { grid-column: 1 / -1; }
+            .contract-actions { flex-direction: column; }
+            .tab-content { padding: 16px; }
+        }
+
+        @media (max-width: 400px) {
+            .stats-grid { grid-template-columns: 1fr; }
+        }
+
+        @media print {
+            @page { size: A4; margin: 6mm; }
+
+            body * { visibility: hidden; }
+            .contract-preview, .contract-preview * { visibility: visible; }
+            .contract-preview {
+                position: absolute; top: 0; left: 0; width: 100%;
+                border: none; box-shadow: none; padding: 0;
+                font-size: 14px;
+                line-height: 1.3;
+            }
+            .contract-actions { display: none !important; }
+
+            #contract-title {
+                font-size: 17px !important;
+                margin-bottom: 3px !important;
+                padding-bottom: 3px !important;
+            }
+
+            .contract-section {
+                padding: 4px 7px !important;
+                margin-bottom: 3px !important;
+                border-right-width: 2px !important;
+            }
+
+            .contract-section p {
+                margin-bottom: 1px !important;
+            }
+
+            .contract-terms p {
+                font-size: 12px !important;
+                line-height: 1.35 !important;
+            }
+        }
+    </style>
+    <script>
+        const savedTheme = localStorage.getItem('trend_theme') || 'dark';
+        document.documentElement.setAttribute('data-theme', savedTheme);
+    </script>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <button class="theme-toggle-btn" onclick="toggleTheme()">
+            <span id="theme-icon">☀️</span> <span id="theme-text">Light Mode</span>
+        </button>
+        <h1>Trend <span>Tools</span></h1>
+        <p>الأدوات المصغرة لتسهيل العمل اليومي لشركة تأجير السيارات</p>
+    </header>
+
+    <div class="tabs-nav">
+        <button class="tab-btn active" onclick="openTab('whatsapp-builder', this)">📱 رسائل الواتساب</button>
+        <button class="tab-btn" onclick="openTab('calculator', this)">🧮 حاسبة التأخير</button>
+        <button class="tab-btn" onclick="openTab('contract', this)">📄 مولد العقود</button>
+        <button class="tab-btn" onclick="openTab('iqrar', this)">🔧 مولد الإقرار</button>
+        <button class="tab-btn" onclick="openTab('revenue', this)">📊 الإيرادات</button>
+        <button class="tab-btn" onclick="openTab('alerts', this)">🔔 تنبيهات الرخص</button>
+        <button class="tab-btn" onclick="openTab('sanitizer', this)">🔍 تنظيف الأرقام</button>
+        <button class="tab-btn" onclick="openTab('notepad', this)">📝 المفكرة</button>
+    </div>
+
+    <!-- Tab 1: WhatsApp Builder -->
+    <div id="whatsapp-builder" class="tab-content active">
+        <h2>📱 مولد رسائل الواتساب الجاهزة</h2>
+        <div class="grid-2">
+            <div class="form-group">
+                <label>رقم هاتف العميل</label>
+                <input type="text" id="wa-phone" placeholder="مثال: 01559553360" oninput="this.value = this.value.replace(/[^0-9]/g, '')">
+            </div>
+            <div class="form-group">
+                <label>اسم العميل</label>
+                <input type="text" id="wa-name" placeholder="مثال: أ/ محمد محمد">
+            </div>
+        </div>
+        <div class="grid-2">
+            <div class="form-group">
+                <label>نوع السيارة</label>
+                <input type="text" id="wa-car" placeholder="مثال: تيوتا 2024">
+            </div>
+            <div class="form-group">
+                <label>الميعاد / التفاصيل الإضافية</label>
+                <input type="text" id="wa-time" placeholder="مثال: اليوم الساعة 5 مساءً">
+            </div>
+        </div>
+        <label>اختر نوع الرسالة:</label>
+        <div class="template-tags">
+            <button class="tag-btn" onclick="generateWA('welcome')">👋 رسالة ترحيب وأسعار</button>
+            <button class="tag-btn" onclick="generateWA('terms')">📜 شروط التأجير والأوراق</button>
+            <button class="tag-btn" onclick="generateWA('remind')">⏰ تذكير بموعد الاستلام</button>
+            <button class="tag-btn" onclick="generateWA('return')">🚗 تذكير بموعد الإرجاع</button>
+        </div>
+    </div>
+
+    <!-- Tab 2: Calculator -->
+    <div id="calculator" class="tab-content">
+        <h2>🧮 حاسبة التأخير والغرامات</h2>
+        <div class="grid-2">
+            <div class="form-group">
+                <label>التاريخ ووقت الاستلام المتوقع</label>
+                <input type="datetime-local" id="calc-start">
+            </div>
+            <div class="form-group">
+                <label>التاريخ ووقت الإرجاع الفعلي</label>
+                <input type="datetime-local" id="calc-end">
+            </div>
+        </div>
+        <div class="grid-2">
+            <div class="form-group">
+                <label>سعر إيجار اليوم (EGP)</label>
+                <input type="number" id="calc-day-price" value="1500">
+            </div>
+            <div class="form-group">
+                <label>غرامة ساعة التأخير (EGP)</label>
+                <input type="number" id="calc-hour-price" value="150">
+            </div>
+        </div>
+        <button class="btn" onclick="calculateFees()">احسب التكلفة والغرامات</button>
+        <div id="calc-result" class="result-box" style="display:none;">
+            <div class="result-header"><span>نتائج الحساب:</span></div>
+            <div id="calc-text"></div>
+        </div>
+    </div>
+
+    <!-- Tab 3: Contract Generator -->
+    <div id="contract" class="tab-content">
+        <h2>📄 مولد بيانات العقد</h2>
+
+        <h3>👤 بيانات العميل</h3>
+        <div class="grid-2">
+            <div class="form-group">
+                <label>اسم العميل كاملاً</label>
+                <input type="text" id="c-name" placeholder="أ/ محمد أحمد علي">
+            </div>
+            <div class="form-group">
+                <label>رقم الهاتف</label>
+                <input type="text" id="c-phone" placeholder="01xxxxxxxxx" oninput="this.value = this.value.replace(/[^0-9]/g, '')">
+            </div>
+        </div>
+        <div class="grid-2">
+            <div class="form-group">
+                <label>رقم البطاقة / جواز السفر</label>
+                <input type="text" id="c-id" placeholder="رقم الهوية">
+            </div>
+            <div class="form-group">
+                <label>العنوان</label>
+                <input type="text" id="c-address" placeholder="المدينة، الحي">
+            </div>
+        </div>
+        <div class="grid-3">
+            <div class="form-group">
+                <label>صادرة من (البطاقة)</label>
+                <input type="text" id="c-id-from" placeholder="مثال: القاهرة">
+            </div>
+            <div class="form-group">
+                <label>تاريخ إصدار البطاقة</label>
+                <input type="date" id="c-id-issue">
+            </div>
+            <div class="form-group">
+                <label>تاريخ انتهاء البطاقة</label>
+                <input type="date" id="c-id-expiry">
+            </div>
+        </div>
+        <div class="grid-3">
+            <div class="form-group">
+                <label>رقم رخصة القيادة</label>
+                <input type="text" id="c-license-no" placeholder="رقم الرخصة">
+            </div>
+            <div class="form-group">
+                <label>تاريخ إصدار الرخصة</label>
+                <input type="date" id="c-license-issue">
+            </div>
+            <div class="form-group">
+                <label>تاريخ انتهاء الرخصة</label>
+                <input type="date" id="c-license-expiry">
+            </div>
+        </div>
+
+        <h3>🚗 بيانات العربية</h3>
+        <div class="grid-3">
+            <div class="form-group">
+                <label>نوع وموديل العربية</label>
+                <input type="text" id="c-car" placeholder="تيوتا كورولا 2023">
+            </div>
+            <div class="form-group">
+                <label>رقم اللوحة</label>
+                <input type="text" id="c-plate" placeholder="أ ب ج 1234">
+            </div>
+            <div class="form-group">
+                <label>لون العربية</label>
+                <input type="text" id="c-color" placeholder="أبيض / أسود">
+            </div>
+        </div>
+        <div class="grid-3">
+            <div class="form-group">
+                <label>رقم الموتور</label>
+                <input type="text" id="c-engine" placeholder="رقم الموتور">
+            </div>
+            <div class="form-group">
+                <label>رقم الشاسيه</label>
+                <input type="text" id="c-chassis" placeholder="رقم الشاسيه">
+            </div>
+            <div class="form-group">
+                <label>كيلومتر الخروج</label>
+                <input type="number" id="c-km-out" placeholder="مثال: 45000">
+            </div>
+        </div>
+
+        <h3>📅 بيانات الإيجار</h3>
+        <div class="grid-2">
+            <div class="form-group">
+                <label>تاريخ ووقت الاستلام</label>
+                <input type="datetime-local" id="c-start">
+            </div>
+            <div class="form-group">
+                <label>تاريخ ووقت الإرجاع</label>
+                <input type="datetime-local" id="c-end">
+            </div>
+        </div>
+        <div class="grid-3">
+            <div class="form-group">
+                <label>سعر اليوم (EGP)</label>
+                <input type="number" id="c-price" placeholder="1500" value="1500">
+            </div>
+            <div class="form-group">
+                <label>مبلغ الضمان / التأمين (EGP)</label>
+                <input type="number" id="c-deposit" placeholder="5000" value="5000">
+            </div>
+            <div class="form-group">
+                <label>طريقة الدفع</label>
+                <select id="c-payment">
+                    <option>كاش</option>
+                    <option>تحويل بنكي</option>
+                    <option>فيزا / ماستركارد</option>
+                    <option>إنستاباي</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="grid-2">
+            <div class="form-group">
+                <label>سعر الكيلو الزيادة (قرش) - بند 4</label>
+                <input type="number" id="c-km-price" placeholder="مثال: 50" value="50">
+            </div>
+            <div class="form-group">
+                <label>قيمة تعويض الهلاك الكامل (EGP) - بند 6</label>
+                <input type="number" id="c-damage-fee" placeholder="مثال: 50000">
+            </div>
+        </div>
+        <div class="form-group">
+            <label>ملاحظات إضافية</label>
+            <textarea id="c-notes" rows="2" placeholder="أي شروط أو ملاحظات خاصة بالعقد ده..."></textarea>
+        </div>
+
+        <button class="btn" onclick="generateContract()">📄 توليد العقد</button>
+
+        <div id="contract-preview" class="contract-preview">
+            <h3 id="contract-title">عقد إيجار سيارة — Trend Car Rental</h3>
+            <div id="contract-body"></div>
+            <div id="contract-amanah"></div>
+            <div class="contract-actions">
+                <button class="btn btn-green" onclick="copyContract()">📋 نسخ العقد</button>
+                <button class="btn btn-blue" onclick="printContract()">🖨️ طباعة</button>
+                <button class="btn btn-outline" onclick="sendContractWA()">📱 إرسال واتساب</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Tab: Iqrar (Inspection Report) -->
+    <div id="iqrar" class="tab-content">
+        <h2>🔧 مولد تقرير هيكلي وإقرار استلام سيارة</h2>
+
+        <h3>🚗 بيانات السيارة</h3>
+        <div class="grid-3">
+            <div class="form-group">
+                <label>نوع وموديل السيارة</label>
+                <input type="text" id="iq-car" placeholder="تيوتا كورولا 2023">
+            </div>
+            <div class="form-group">
+                <label>رقم السيارة</label>
+                <input type="text" id="iq-plate" placeholder="أ ب ج 1234">
+            </div>
+            <div class="form-group">
+                <label>لون السيارة</label>
+                <input type="text" id="iq-color" placeholder="أبيض / أسود">
+            </div>
+        </div>
+        <div class="grid-2">
+            <div class="form-group">
+                <label>موتور</label>
+                <input type="text" id="iq-engine" placeholder="رقم الموتور">
+            </div>
+            <div class="form-group">
+                <label>شاسيه</label>
+                <input type="text" id="iq-chassis" placeholder="رقم الشاسيه">
+            </div>
+        </div>
+        <div class="grid-3">
+            <div class="form-group">
+                <label>ك.م الخروج</label>
+                <input type="number" id="iq-km-out" placeholder="45000">
+            </div>
+            <div class="form-group">
+                <label>ك.م الدخول</label>
+                <input type="number" id="iq-km-in" placeholder="45500">
+            </div>
+            <div class="form-group">
+                <label>ك.م الزيادة</label>
+                <input type="number" id="iq-km-increase" placeholder="0">
+            </div>
+        </div>
+
+        <h3>🧰 حالة التجهيزات (Out عند الخروج / In عند الدخول)</h3>
+        <div id="iq-checklist" style="display:flex; flex-direction:column; gap:6px; margin-bottom:15px;"></div>
+
+        <h3>👤 بيانات المستأجر</h3>
+        <div class="grid-2">
+            <div class="form-group">
+                <label>اسم العميل</label>
+                <input type="text" id="iq-name" placeholder="أ/ محمد أحمد علي">
+            </div>
+            <div class="form-group">
+                <label>الجنسية</label>
+                <input type="text" id="iq-nationality" placeholder="مصري">
+            </div>
+        </div>
+        <div class="grid-3">
+            <div class="form-group">
+                <label>رقم البطاقة</label>
+                <input type="text" id="iq-id" placeholder="رقم الهوية">
+            </div>
+            <div class="form-group">
+                <label>صادرة من (البطاقة)</label>
+                <input type="text" id="iq-id-from" placeholder="القاهرة">
+            </div>
+            <div class="form-group">
+                <label>تاريخ الإصدار</label>
+                <input type="date" id="iq-id-issue">
+            </div>
+        </div>
+        <div class="grid-3">
+            <div class="form-group">
+                <label>رقم رخصة القيادة</label>
+                <input type="text" id="iq-license-no" placeholder="رقم الرخصة">
+            </div>
+            <div class="form-group">
+                <label>صادرة من (الرخصة)</label>
+                <input type="text" id="iq-license-from" placeholder="القاهرة">
+            </div>
+            <div class="form-group">
+                <label>تاريخ إصدار الرخصة</label>
+                <input type="date" id="iq-license-issue">
+            </div>
+        </div>
+        <div class="grid-2">
+            <div class="form-group">
+                <label>رقم الهاتف</label>
+                <input type="text" id="iq-phone" placeholder="01xxxxxxxxx" oninput="this.value = this.value.replace(/[^0-9]/g, '')">
+            </div>
+            <div class="form-group">
+                <label>العنوان</label>
+                <input type="text" id="iq-address" placeholder="المدينة، الحي">
+            </div>
+        </div>
+
+        <h3>📅 بيانات الإيجار</h3>
+        <div class="grid-2">
+            <div class="form-group">
+                <label>تاريخ استلام السيارة</label>
+                <input type="datetime-local" id="iq-receive-date">
+            </div>
+            <div class="form-group">
+                <label>تاريخ رجوع السيارة</label>
+                <input type="datetime-local" id="iq-return-date">
+            </div>
+        </div>
+        <div class="grid-3">
+            <div class="form-group">
+                <label>المدة</label>
+                <input type="text" id="iq-duration" placeholder="مثال: 3 أيام">
+            </div>
+            <div class="form-group">
+                <label>الكيلومتر المسموح يومي</label>
+                <input type="number" id="iq-daily-km" placeholder="200">
+            </div>
+            <div class="form-group">
+                <label>قيمة الكيلومتر الزيادة</label>
+                <input type="number" id="iq-km-price" placeholder="50">
+            </div>
+        </div>
+        <div class="grid-3">
+            <div class="form-group">
+                <label>قيمة الساعة الزيادة</label>
+                <input type="number" id="iq-hour-price" placeholder="150">
+            </div>
+            <div class="form-group">
+                <label>غرامة فقد رخصة السيارة</label>
+                <input type="number" id="iq-license-loss-fee" placeholder="500">
+            </div>
+            <div class="form-group">
+                <label>غرامة فقد اللوحات</label>
+                <input type="number" id="iq-plate-loss-fee" placeholder="500">
+            </div>
+        </div>
+
+        <button class="btn" onclick="generateIqrar()">🔧 توليد الإقرار</button>
+
+        <div id="iqrar-preview" class="contract-preview">
+            <h3 id="iqrar-title">تقرير هيكلي وإقرار إستلام سيارة — Trend Car Rental</h3>
+            <div id="iqrar-body"></div>
+            <div class="contract-actions">
+                <button class="btn btn-green" onclick="copyIqrar()">📋 نسخ الإقرار</button>
+                <button class="btn btn-blue" onclick="printIqrar()">🖨️ طباعة</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Tab 4: Revenue -->
+    <div id="revenue" class="tab-content">
+        <h2>📊 ملخص الإيرادات</h2>
+
+        <div class="grid-2" style="margin-bottom:15px;">
+            <div class="form-group" style="margin-bottom:0;">
+                <label>عرض إيرادات:</label>
+                <select id="rev-filter" onchange="renderRevenueSummary()">
+                    <option value="today">اليوم فقط</option>
+                    <option value="week">آخر 7 أيام</option>
+                    <option value="month">آخر 30 يوم</option>
+                    <option value="all">الكل</option>
+                </select>
+            </div>
+            <div style="display:flex; align-items:flex-end;">
+                <button class="btn btn-outline" style="width:100%; margin-top:0;" onclick="clearAllRevenue()">🗑️ مسح كل الإيرادات</button>
+            </div>
+        </div>
+
+        <h3>➕ إضافة إيجار جديد</h3>
+        <div id="revenue-entries">
+            <!-- rows added dynamically -->
+        </div>
+        <button class="btn btn-outline" style="width:auto; margin-top:5px;" onclick="addRevenueRow()">+ إضافة إيجار</button>
+        <button class="btn btn-green" onclick="saveRevenueEntries()">💾 حفظ وتحديث التقرير</button>
+
+        <div id="revenue-summary" style="display:none;">
+            <div class="stats-grid">
+                <div class="stat-card green">
+                    <div class="stat-label">إجمالي الإيرادات</div>
+                    <div class="stat-value" id="rev-total">0</div>
+                    <div style="font-size:11px; color:var(--text-muted); margin-top:4px;">EGP</div>
+                </div>
+                <div class="stat-card blue">
+                    <div class="stat-label">عدد الإيجارات</div>
+                    <div class="stat-value" id="rev-count">0</div>
+                    <div style="font-size:11px; color:var(--text-muted); margin-top:4px;">عقد</div>
+                </div>
+                <div class="stat-card red">
+                    <div class="stat-label">متوسط الإيجار</div>
+                    <div class="stat-value" id="rev-avg">0</div>
+                    <div style="font-size:11px; color:var(--text-muted); margin-top:4px;">EGP</div>
+                </div>
+            </div>
+
+            <table class="revenue-table" id="rev-table">
+                <thead>
+                    <tr>
+                        <th>اسم العميل</th>
+                        <th>العربية</th>
+                        <th>المبلغ (EGP)</th>
+                        <th>التاريخ</th>
+                    </tr>
+                </thead>
+                <tbody id="rev-table-body"></tbody>
+            </table>
+
+            <button class="btn btn-outline" style="width:auto; margin-top:15px;" onclick="copyRevenueReport()">📋 نسخ التقرير</button>
+        </div>
+    </div>
+
+    <!-- Tab 5: Alerts -->
+    <div id="alerts" class="tab-content">
+        <h2>🔔 تنبيهات الرخص والتأمين</h2>
+
+        <h3>➕ إضافة عربية للمتابعة</h3>
+        <div id="alert-entries">
+            <!-- rows added dynamically -->
+        </div>
+        <button class="btn btn-outline" style="width:auto; margin-top:5px;" onclick="addAlertRow()">+ إضافة عربية</button>
+        <button class="btn" onclick="saveAndCheckAlerts()">🔍 حفظ وفحص التنبيهات</button>
+
+        <div id="alerts-result" style="margin-top:20px; display:none;">
+            <div class="result-header" style="margin-bottom:12px;">
+                <span>حالة الرخص والتأمينات:</span>
+                <button class="btn-outline btn" onclick="clearAlerts()" style="font-size:12px; padding:5px 12px; width:auto; margin-top:0;">🗑️ مسح الكل</button>
+            </div>
+            <div id="alerts-cards" class="alert-cards"></div>
+        </div>
+    </div>
+
+    <!-- Tab 6: Sanitizer -->
+    <div id="sanitizer" class="tab-content">
+        <h2>🔍 أداة فحص وتنسيق أرقام التليفونات</h2>
+        <div class="form-group">
+            <label>قم بلصق الأرقام هنا (رقم واحد أو عدة أرقام في أسطر منفصلة):</label>
+            <textarea id="sanitizer-input" rows="5" placeholder="010 1234 5678&#10;+201234567890&#10;0020156789123"></textarea>
+        </div>
+        <button class="btn" onclick="sanitizeNumbers()">تنظيف وتنسيق الأرقام</button>
+        <div id="sanitizer-result" class="result-box" style="display:none;">
+            <div class="result-header"><span>الأرقام الجاهزة:</span></div>
+            <div id="sanitizer-text"></div>
+        </div>
+    </div>
+
+    <!-- Tab 7: Notepad -->
+    <div id="notepad" class="tab-content">
+        <h2>📝 المفكرة السريعة</h2>
+        <div class="form-group">
+            <label>عربيات خروج اليوم:</label>
+            <textarea id="note-out" rows="3" placeholder="مثال: التشيفورليت مع أ/ محمد ترجع الساعة 6"></textarea>
+        </div>
+        <div class="form-group">
+            <label>عربيات دخول اليوم والصيانة:</label>
+            <textarea id="note-in" rows="3" placeholder="مثال: البي إم محتاجة غسيل وتغيير زيت"></textarea>
+        </div>
+        <div class="form-group">
+            <label>معلقات مالية وحسابات:</label>
+            <textarea id="note-money" rows="3" placeholder="مثال: باقي 300 جنيه على أ/ محمد"></textarea>
+        </div>
+        <button class="btn btn-green" onclick="shareNotes()">📋 نسخ تقرير الوردية بالكامل</button>
+    </div>
+</div>
+
+<div id="toast-container" class="toast-container"></div>
+
+<script>
+    // ========== CONTRACT COUNTER ==========
+    function getNextContractNumber() {
+        let counter = parseInt(localStorage.getItem('trend_contract_counter') || '1', 10);
+        localStorage.setItem('trend_contract_counter', counter + 1);
+        return String(counter).padStart(6, '0');
+    }
+    
+    // ========== TOAST ==========
+function showToast(message, type = 'error') {
+    const container = document.getElementById('toast-container');
+    const toast = document.createElement('div');
+    toast.className = `toast ${type === 'success' ? 'toast-success' : ''}`;
+    toast.innerHTML = `<span>${type === 'success' ? '✅' : '⚠️'}</span> <span>${message}</span>`;
+    container.appendChild(toast);
+    setTimeout(() => toast.classList.add('show'), 100);
+    setTimeout(() => { toast.classList.remove('show'); setTimeout(() => toast.remove(), 300); }, 3500);
+}
+
+// ========== TABS ==========
+function openTab(tabId, btn) {
+    document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.getElementById(tabId).classList.add('active');
+    btn.classList.add('active');
+}
+
+// ========== THEME ==========
+function updateThemeUI(theme) {
+    document.getElementById('theme-icon').innerText = theme === 'light' ? '🌙' : '☀️';
+    document.getElementById('theme-text').innerText = theme === 'light' ? 'Dark Mode' : 'Light Mode';
+}
+
+function toggleTheme() {
+    const current = document.documentElement.getAttribute('data-theme');
+    const next = current === 'light' ? 'dark' : 'light';
+    document.documentElement.setAttribute('data-theme', next);
+    localStorage.setItem('trend_theme', next);
+    updateThemeUI(next);
+    showToast(`تم التغيير إلى ${next === 'light' ? 'الوضع المضيء' : 'الوضع المظلم'}`, 'success');
+}
+
+// ========== WHATSAPP ==========
+function generateWA(type) {
+    let phone = document.getElementById('wa-phone').value.trim();
+    let name = document.getElementById('wa-name').value.trim() || 'عميلنا العزيز';
+    let car = document.getElementById('wa-car').value.trim() || 'العربية المحددة';
+    let time = document.getElementById('wa-time').value.trim() || 'الموعد المتفق عليه';
+
+    if (!phone) { showToast('يرجى كتابة رقم الهاتف أولاً'); return; }
+
+    phone = phone.replace(/\D/g, '');
+    if (phone.startsWith('0')) phone = '2' + phone;
+    if (!phone.startsWith('2')) phone = '2' + phone;
+
+    let msg = '';
+    if (type === 'welcome') {
+        msg = `أهلاً بك يا ${name} في Trend Car Rental 🚗\nبنأكد لحضرتك إتاحة العربية ${car} الي استفسرت عنها. تفاصيل الأسعار والخصومات الحالية تم تجهيزها لك. حابب تشرفنا امتى؟`;
+    } else if (type === 'terms') {
+        msg = `عزيزنا ${name}، شروط تأجير ${car} في Trend Car Rental هي:\n1. صورة البطاقة الشخصية / جواز السفر (ساري).\n2. رخصة قيادة سارية.\n3. إيصال مرافق أو ضمان مالي.\nبانتظار تشريفك في الموعد المتفق عليه!`;
+    } else if (type === 'remind') {
+        msg = `تذكير لـ ${name}: بنفكرك بمعاد استلام عربيتك ${car} المجهز لك بالتمام في تمام الساعة ${time}. شرفنا في الفرع واستمتع برحلتك! ✨`;
+    } else if (type === 'return') {
+        msg = `أهلاً ${name}، نرجو أن تكون تجربتك مع Trend Car Rental ممتازة. بنفكرك إن ميعاد تسليم العربية ${car} هو ${time}. تحياتنا لك!`;
+    }
+
+    window.open(`https://wa.me/${phone}?text=${encodeURIComponent(msg)}`, '_blank');
+}
+
+// ========== CALCULATOR ==========
+function calculateFees() {
+    let start = document.getElementById('calc-start').value;
+    let end = document.getElementById('calc-end').value;
+    let dayPrice = parseFloat(document.getElementById('calc-day-price').value) || 0;
+    let hourPrice = parseFloat(document.getElementById('calc-hour-price').value) || 0;
+
+    if (!start || !end) { showToast('يرجى اختيار التواريخ كاملة'); return; }
+
+    let diffMs = new Date(end) - new Date(start);
+    if (diffMs < 0) { showToast('تاريخ الإرجاع لا يمكن أن يكون قبل تاريخ الاستلام!'); return; }
+
+    let diffHours = diffMs / (1000 * 60 * 60);
+    let days = Math.floor(diffHours / 24);
+    let remainingHours = Math.ceil(diffHours % 24);
+    let totalRentalPrice = days * dayPrice;
+    let lateFees = 0;
+
+    if (days === 0 && diffHours > 0) { totalRentalPrice = dayPrice; remainingHours = 0; }
+    else if (remainingHours > 2) { lateFees = remainingHours * hourPrice; }
+    else { remainingHours = 0; }
+
+    let total = totalRentalPrice + lateFees;
+    let resultBox = document.getElementById('calc-result');
+    document.getElementById('calc-text').innerHTML = `
+        <p>⏳ <b>مدة الإيجار الإجمالية:</b> ${days} يوم و ${Math.ceil(diffHours % 24)} ساعة.</p>
+        <p>💵 <b>تكلفة الإيجار الأساسية (${days} يوم):</b> ${totalRentalPrice.toLocaleString()} EGP</p>
+        <p>⚠️ <b>ساعات التأخير المحتسبة:</b> ${remainingHours} ساعة (غرامة: ${lateFees.toLocaleString()} EGP)</p>
+        <hr style="margin:10px 0; border-color:var(--border-color);">
+        <p style="font-size:16px; color:var(--primary-color);">💰 <b>الإجمالي المطلوب دفعه: ${total.toLocaleString()} EGP</b></p>
+    `;
+    resultBox.style.display = 'block';
+}
+
+// ========== IQRAR (INSPECTION REPORT) ==========
+const iqrarChecklistItems = [
+    ['2 Wipers', 'مساحتين'],
+    ['Antenna', 'إريال'],
+    ['Outside Mirror', '2 مرآة خارجية'],
+    ['4 Hub Cups', '4 طاسات'],
+    ['Bumper Rubber (Cover)', 'كاوتش إكسدام'],
+    ['Jack & Wheel Spanner', 'كريك مفتاح عجل'],
+    ['5 Wheel Tyres', '5 فرد كاوتش بالجنط'],
+    ['Car Key', 'مفتاح السيارة'],
+    ['Sun Rear Blinds', 'ستائر خلفية'],
+    ['Inside Mirror', 'مرآة داخلية'],
+    ['Car Boot & Mats', 'دواسات صالون وشنطة'],
+    ['Seats Cover', 'غطاء كرسي'],
+    ['Radio - Cassette', 'راديو مسجل'],
+    ['Ashtray', 'طفاية سجاير'],
+    ['Lighter', 'ولاعة سجائر'],
+    ['License', 'رخصة السيارة'],
+    ['Head Rest', 'مساند رأس'],
+    ['Fire Extinguisher', 'طفاية حريق']
+];
+
+function buildIqrarChecklist() {
+    let container = document.getElementById('iq-checklist');
+    container.innerHTML = iqrarChecklistItems.map((item, i) => `
+        <div style="display:grid; grid-template-columns:1fr auto auto; gap:10px; align-items:center; background:var(--input-bg); padding:8px 12px; border-radius:8px; border:1px solid var(--border-color);">
+            <span style="font-size:13px;">${item[1]} <span style="color:var(--text-muted); font-size:11px;">(${item[0]})</span></span>
+            <label style="display:flex; align-items:center; gap:4px; font-size:12px; color:var(--text-muted); width:auto;"><input type="checkbox" class="iq-out" data-index="${i}" style="width:auto;"> Out</label>
+            <label style="display:flex; align-items:center; gap:4px; font-size:12px; color:var(--text-muted); width:auto;"><input type="checkbox" class="iq-in" data-index="${i}" style="width:auto;"> In</label>
+        </div>
+    `).join('');
+}
+
+function getNextIqrarNumber() {
+    let counter = parseInt(localStorage.getItem('trend_iqrar_counter') || '1', 10);
+    localStorage.setItem('trend_iqrar_counter', counter + 1);
+    return String(counter).padStart(6, '0');
+}
+
+function generateIqrar() {
+    let car = document.getElementById('iq-car').value.trim();
+    let plate = document.getElementById('iq-plate').value.trim();
+    let color = document.getElementById('iq-color').value.trim();
+    let engine = document.getElementById('iq-engine').value.trim();
+    let chassis = document.getElementById('iq-chassis').value.trim();
+    let kmOut = document.getElementById('iq-km-out').value;
+    let kmIn = document.getElementById('iq-km-in').value;
+    let kmIncrease = document.getElementById('iq-km-increase').value;
+    let name = document.getElementById('iq-name').value.trim();
+    let nationality = document.getElementById('iq-nationality').value.trim();
+    let cid = document.getElementById('iq-id').value.trim();
+    let idFrom = document.getElementById('iq-id-from').value.trim();
+    let idIssue = document.getElementById('iq-id-issue').value;
+    let licenseNo = document.getElementById('iq-license-no').value.trim();
+    let licenseFrom = document.getElementById('iq-license-from').value.trim();
+    let licenseIssue = document.getElementById('iq-license-issue').value;
+    let phone = document.getElementById('iq-phone').value.trim();
+    let address = document.getElementById('iq-address').value.trim();
+    let receiveDate = document.getElementById('iq-receive-date').value;
+    let returnDate = document.getElementById('iq-return-date').value;
+    let duration = document.getElementById('iq-duration').value.trim();
+    let dailyKm = document.getElementById('iq-daily-km').value;
+    let kmPrice = document.getElementById('iq-km-price').value;
+    let hourPrice = document.getElementById('iq-hour-price').value;
+    let licenseLossFee = document.getElementById('iq-license-loss-fee').value;
+    let plateLossFee = document.getElementById('iq-plate-loss-fee').value;
+
+    if (!car || !plate || !name) {
+        showToast('يرجى ملء بيانات السيارة والعميل على الأقل');
+        return;
+    }
+
+    let consumption = (kmOut && kmIn) ? (parseFloat(kmIn) - parseFloat(kmOut)) : '';
+    let today = new Date().toLocaleDateString('ar-EG', { dateStyle: 'full' });
+    let iqrarNo = getNextIqrarNumber();
+    let fmtDate = d => d ? new Date(d).toLocaleDateString('ar-EG', { dateStyle: 'medium' }) : '.........';
+    let fmtDateTime = d => d ? new Date(d).toLocaleString('ar-EG', { dateStyle: 'medium', timeStyle: 'short' }) : '.........';
+
+    let checklistRows = iqrarChecklistItems.map((item, i) => {
+        let out = document.querySelector(`.iq-out[data-index="${i}"]`).checked ? '✓' : '—';
+        let inn = document.querySelector(`.iq-in[data-index="${i}"]`).checked ? '✓' : '—';
+        return `<tr><td>${item[1]} (${item[0]})</td><td style="text-align:center;">${out}</td><td style="text-align:center;">${inn}</td></tr>`;
+    }).join('');
+
+    let body = `
+        <p style="text-align:center; color:var(--text-muted); font-size:11px; margin-bottom:5px;">رقم التقرير: ${iqrarNo} — بتاريخ ${today}</p>
+
+        <div class="contract-section">
+            <p><strong>السيارة:</strong> ${car} &nbsp;|&nbsp; <strong>رقم:</strong> ${plate} &nbsp;|&nbsp; <strong>لون:</strong> ${color || '—'}</p>
+            <p><strong>موتور:</strong> ${engine || '—'} &nbsp;|&nbsp; <strong>شاسيه:</strong> ${chassis || '—'}</p>
+            <p><strong>ك.م الخروج:</strong> ${kmOut || '—'} &nbsp;|&nbsp; <strong>ك.م الدخول:</strong> ${kmIn || '—'} &nbsp;|&nbsp; <strong>الاستهلاك:</strong> ${consumption !== '' ? consumption : '—'} &nbsp;|&nbsp; <strong>الزيادة:</strong> ${kmIncrease || '—'}</p>
+        </div>
+
+        <div class="contract-section" style="padding:8px;">
+            <p style="font-weight:700; text-align:center; margin-bottom:6px;">مخطط حالة السيارة (لتحديد أي خدوش أو أضرار)</p>
+            <div style="text-align:center; margin:8px 0;">
+                <img src="MOH.png" alt="مخطط السيارة" class="iqrar-diagram-img" style="border:1px solid #ccc; border-radius:6px;" onerror="this.style.display='none'">
+            </div>
+        </div>
+
+        <table class="iqrar-checklist-table">
+            <thead><tr><th>البند</th><th>Out</th><th>In</th></tr></thead>
+            <tbody>${checklistRows}</tbody>
+        </table>
+
+        <div class="contract-section" style="margin-top:8px;">
+            <p style="font-weight:700; text-align:center; margin-bottom:5px;">إقرار إستلام السيارة الصادرة بخصوصها التقرير</p>
+            <p class="contract-terms-p">أقر أنا الموقع أدناه: ${name}، وجنسيتي: ${nationality || '—'}، بطاقة رقم: ${cid || '—'} صادرة من ${idFrom || '—'} بتاريخ ${fmtDate(idIssue)}، أحمل رخصة قيادة رقم: ${licenseNo || '—'} صادرة من ${licenseFrom || '—'} بتاريخ ${fmtDate(licenseIssue)}.</p>
+            <p class="contract-terms-p">بأني راجعت واستلمت السيارة المذكورة والتقرير وكل ما ذكر بالتقرير صحيح، وأطلعت عليه مع الفني المختص بالشركة، وأقر وأتعهد للشركة بالآتي:</p>
+            <p class="contract-terms-p">1- السيارة مستوفاة لجميع شروط العمل، وفي حالة أي حادث أتعهد بإخطار الشركة وعدم إصلاح أي شيء قبل الرجوع إلى الشركة.</p>
+            <p class="contract-terms-p">2- السيارة تحت مسئوليتي طوال فترة الإيجار.</p>
+            <p class="contract-terms-p">أ- لا يوجد بالسيارة أي ممنوعات أو بضائع مخالفة للقانون.</p>
+            <p class="contract-terms-p">ب- جميع الحوادث والمخالفات وجنايات فترة الإيجار المحرر بها العقد يحق للشركة الرجوع بمسئوليتي وطلب التعويض في حالة أي ضرر يلحق بالشركة من فترة الإيجار.</p>
+            <p><strong>تاريخ استلام السيارة:</strong> ${fmtDateTime(receiveDate)} &nbsp;|&nbsp; <strong>المدة:</strong> ${duration || '—'}</p>
+            <p><strong>الكيلومتر المسموح يومي:</strong> ${dailyKm || '—'} &nbsp;|&nbsp; <strong>قيمة الكيلومتر الزيادة:</strong> ${kmPrice || '—'} جنيه</p>
+            <p><strong>تاريخ رجوع السيارة:</strong> ${fmtDateTime(returnDate)} &nbsp;|&nbsp; <strong>قيمة الساعة الزيادة:</strong> ${hourPrice || '—'} جنيه</p>
+            <p><strong>في حالة فقد رخصة السيارة يدفع:</strong> ${licenseLossFee || '—'} جنيه &nbsp;|&nbsp; <strong>رقم التليفون:</strong> ${phone || '—'}</p>
+            <p><strong>في حالة فقد اللوحات المدنية يدفع:</strong> ${plateLossFee || '—'} جنيه &nbsp;|&nbsp; <strong>العنوان:</strong> ${address || '—'}</p>
+            <p class="contract-terms-p">- في حالة تجديد مدة العقد يلزم بإخطار المكتب قبل نهاية مدة إيجار السيارة بـ 24 ساعة.</p>
+            <p class="contract-terms-p">3- تم إثبات جميع الملاحظات بالتقرير تحت علمي ومعرفتي دون أي مسئولية على الشركة.</p>
+            <p class="contract-terms-p">4- أستلمت السيارة وجميع متعلقاتها والكماليات وقطع الغيار الخاصة بها وكذلك مثبت بالتقرير.</p>
+            <p class="contract-terms-p">5- أقر بأني على علم بالشروط وقواعد المرور وقواعد الأهلية، وأنني مسئول عن جميع العقود والأوراق المحررة لتأجير السيارة سالفة الذكر.</p>
+        </div>
+
+        <div class="contract-section" style="border-color: var(--text-muted); padding-top:8px;">
+            <p style="text-align:center; font-size:11px; color:var(--text-muted); margin-bottom:8px;">تحريراً في: ${today}</p>
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:15px;">
+                <div>
+                    <p style="color:var(--text-muted); font-size:10px;">الطرف الأول</p>
+                    <div style="border-bottom:1px dashed var(--border-color); margin-top:20px; height:1px;"></div>
+                </div>
+                <div>
+                    <p style="color:var(--text-muted); font-size:10px;">الطرف الثاني</p>
+                    <div style="border-bottom:1px dashed var(--border-color); margin-top:20px; height:1px;"></div>
+                </div>
+            </div>
+        </div>
+
+        <p class="page-footer">44 شارع مصطفى صادق الرافعي خلف مستشفى هليوبوليس — ت: 01003524420 - 01112002223</p>
+    `;
+
+    document.getElementById('iqrar-body').innerHTML = body;
+    let preview = document.getElementById('iqrar-preview');
+    preview.style.display = 'block';
+    preview.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+    window._iqrarData = { iqrarNo, car, plate, name, phone };
+}
+
+function copyIqrar() {
+    let d = window._iqrarData;
+    if (!d) return;
+    let text = `🔧 تقرير هيكلي وإقرار استلام سيارة — Trend Car Rental\n`;
+    text += `═══════════════════════════\n`;
+    text += `رقم التقرير: ${d.iqrarNo}\n`;
+    text += `السيارة: ${d.car}\n`;
+    text += `رقم اللوحة: ${d.plate}\n`;
+    text += `العميل: ${d.name}\n`;
+    if (d.phone) text += `الهاتف: ${d.phone}\n`;
+    text += `═══════════════════════════\n`;
+    text += `Trend Car Rental ✅`;
+    navigator.clipboard.writeText(text).then(() => showToast('تم نسخ الإقرار!', 'success'));
+}
+
+function printIqrar() {
+    if (!window._iqrarData) { showToast('يجب توليد الإقرار أولاً'); return; }
+
+    let titleText = document.getElementById('iqrar-title').innerText;
+    let bodyHTML = document.getElementById('iqrar-body').innerHTML;
+
+    let printWindow = window.open('', '_blank');
+    if (!printWindow) {
+        showToast('المتصفح منع فتح نافذة الطباعة! اسمح بالنوافذ المنبثقة لهذا الموقع');
+        return;
+    }
+
+    printWindow.document.write(`
+        <!DOCTYPE html>
+        <html lang="ar" dir="rtl">
+        <head>
+            <meta charset="UTF-8">
+            <base href="${window.location.href}">
+            <title>${titleText}</title>
+            <style>
+                @page { size: A4; margin: 0; }
+                * { font-family: Arial, 'Tahoma', sans-serif; box-sizing: border-box; margin:0; padding:0; }
+                body { color:#000; font-size:11.5px; line-height:1.35; padding:8mm 6mm; }
+                h2 { text-align:center; font-size:16px; margin-bottom:6px; padding-bottom:5px; border-bottom:3px solid #007a7a; }
+                .contract-section { padding:6px 10px; margin-bottom:4px; border-right:3px solid #007a7a; background:#f5f5f5; border-radius:4px; }
+                .contract-section p { margin-bottom:2px; }
+                .contract-terms-p { font-size:10px; line-height:1.4; }
+                strong { color:#007a7a; }
+                .page-footer { text-align:center; font-size:9.5px; color:#555; margin-top:8px; padding-top:5px; border-top:1px solid #ccc; }
+                .footer-logo { display:block; margin:8px auto 0; max-width:100px; }
+                .iqrar-checklist-table { width:100%; border-collapse:collapse; margin:4px 0; font-size:9.5px; }
+                .iqrar-checklist-table th, .iqrar-checklist-table td { border:1px solid #ccc; padding:2px 4px; text-align:right; }
+                .iqrar-checklist-table th { background:#eee; }
+                .iqrar-diagram-img { max-width:100%; height:auto; max-height:90px; display:block; margin:0 auto; }
+            </style>
+        </head>
+        <body>
+            <h2>${titleText}</h2>
+            ${bodyHTML}
+            <img src="trendcar.png" class="footer-logo" alt="Trend Car Rental" onerror="this.style.display='none'">
+        </body>
+        </html>
+    `);
+    printWindow.document.close();
+
+    setTimeout(() => {
+        printWindow.focus();
+        printWindow.print();
+    }, 400);
+
+    printWindow.onafterprint = function () {
+        printWindow.close();
+    };
+}
+
+// ========== CONTRACT ==========
+function generateContract() {
+    let name = document.getElementById('c-name').value.trim();
+    let phone = document.getElementById('c-phone').value.trim();
+    let cid = document.getElementById('c-id').value.trim();
+    let idFrom = document.getElementById('c-id-from').value.trim();
+    let idIssue = document.getElementById('c-id-issue').value;
+    let idExpiry = document.getElementById('c-id-expiry').value;
+    let address = document.getElementById('c-address').value.trim();
+    let licenseNo = document.getElementById('c-license-no').value.trim();
+    let licenseIssue = document.getElementById('c-license-issue').value;
+    let licenseExpiry = document.getElementById('c-license-expiry').value;
+    let car = document.getElementById('c-car').value.trim();
+    let plate = document.getElementById('c-plate').value.trim();
+    let color = document.getElementById('c-color').value.trim();
+    let engine = document.getElementById('c-engine').value.trim();
+    let chassis = document.getElementById('c-chassis').value.trim();
+    let kmOut = document.getElementById('c-km-out').value;
+    let start = document.getElementById('c-start').value;
+    let end = document.getElementById('c-end').value;
+    let price = document.getElementById('c-price').value;
+    let deposit = document.getElementById('c-deposit').value;
+    let kmPrice = document.getElementById('c-km-price').value;
+    let damageFee = document.getElementById('c-damage-fee').value;
+    let payment = document.getElementById('c-payment').value;
+    let notes = document.getElementById('c-notes').value.trim();
+
+    if (!name || !car || !start || !end) {
+        showToast('يرجى ملء بيانات العميل، العربية، والتواريخ على الأقل');
+        return;
+    }
+
+    let startDate = new Date(start);
+    let endDate = new Date(end);
+    if (endDate <= startDate) { showToast('تاريخ الإرجاع لازم يكون بعد تاريخ الاستلام'); return; }
+
+    let days = Math.ceil((endDate - startDate) / (1000 * 60 * 60 * 24));
+    let total = days * parseFloat(price || 0);
+
+    let fmtStart = startDate.toLocaleString('ar-EG', { dateStyle: 'full', timeStyle: 'short' });
+    let fmtEnd = endDate.toLocaleString('ar-EG', { dateStyle: 'full', timeStyle: 'short' });
+    let today = new Date().toLocaleDateString('ar-EG', { dateStyle: 'full' });
+    let contractNo = getNextContractNumber();
+
+    let fmtDate = d => d ? new Date(d).toLocaleDateString('ar-EG', { dateStyle: 'medium' }) : '.........';
+
+    let body = `
+        <p style="text-align:center; color:var(--text-muted); font-size:11px; margin-bottom:5px;">رقم العقد: ${contractNo} — بتاريخ ${today}</p>
+
+        <div class="contract-section">
+            <p><strong>الاسم:</strong> ${name}</p>
+            <p><strong>الهاتف:</strong> ${phone || '—'} &nbsp;|&nbsp; <strong>المقيم في:</strong> ${address || '—'}</p>
+            <p><strong>بطاقة/جواز:</strong> ${cid || '—'} ${idFrom ? '(صادرة من ' + idFrom + ')' : ''} — من ${fmtDate(idIssue)} إلى ${fmtDate(idExpiry)}</p>
+            <p><strong>رخصة قيادة:</strong> ${licenseNo || '—'} — من ${fmtDate(licenseIssue)} إلى ${fmtDate(licenseExpiry)}</p>
+        </div>
+
+        <div class="contract-section">
+            <p><strong>السيارة:</strong> ${car} &nbsp;|&nbsp; <strong>رقم:</strong> ${plate || '—'} &nbsp;|&nbsp; <strong>لون:</strong> ${color || '—'}</p>
+            <p><strong>موتور:</strong> ${engine || '—'} &nbsp;|&nbsp; <strong>شاسيه:</strong> ${chassis || '—'} &nbsp;|&nbsp; <strong>كم الخروج:</strong> ${kmOut || '—'}</p>
+        </div>
+
+        <div class="contract-section">
+            <p><strong>من:</strong> ${fmtStart} &nbsp;&nbsp;<strong>إلى:</strong> ${fmtEnd} &nbsp;(${days} يوم)</p>
+            <p><strong>سعر اليوم:</strong> ${parseFloat(price).toLocaleString()} EGP &nbsp;|&nbsp; <strong>الإجمالي:</strong> ${total.toLocaleString()} EGP &nbsp;|&nbsp; <strong>تأمين:</strong> ${parseFloat(deposit || 0).toLocaleString()} EGP &nbsp;|&nbsp; <strong>الدفع:</strong> ${payment}</p>
+        </div>
+
+        <div class="contract-section contract-terms">
+            <p>2- أقر أنا الطرف الثاني قد استلمت السيارة وعاينتها معاينة نافية للجهالة، وأتعهد بإرجاعها كما استلمتها، وعند وجود صدمات أو أعطال تصلح على حساب الطرف الثاني، ويخصم قيمة الإصلاح من مبلغ التأمين (${parseFloat(deposit || 0).toLocaleString()} جنيه).</p>
+            <p>3- يدفع الطرف الثاني مبلغ ${parseFloat(deposit || 0).toLocaleString()} جنيه كتأمين لا يزيد إلا بخصم إصلاحات ناتجة عن الاستعمال، وإذا زادت عن التأمين يلزم بها الطرف الثاني.</p>
+            <p>4- يلتزم المستأجر بإبلاغ الطرف الأول عند التجديد ودفع قيمته فور انتهاء المدة الأولى، وللطرف الأول حق رفض التجديد. لا يجوز العدول قبل انتهاء المدة. المسموح 100 كم، والزيادة تحسب (${kmPrice || '.....'}) قرشاً/كم، ولا يجوز الاستغلال التجاري.</p>
+            <p>5- يتعهد الطرف الثاني باستعمال السيارة بنفسه ويكون مسئولاً مسئولية كاملة وجنائية من ساعة الاستلام لساعة التسليم، ولا يحق له المطالبة بأي حقوق عند العدول عن الاستخدام.</p>
+            <p>6- يتعهد الطرف الثاني بدفع ${damageFee ? parseFloat(damageFee).toLocaleString() : '.....'} جنيه في حالة هلاك السيارة أو ضياعها أو جعلها غير قابلة للاستعمال.</p>
+            <p>7- أقر الطرف الثاني بعلمه بالأماكن المحظورة، وهو مسئول مادياً وجنائياً عن أي مخالفات، ولا يرد التأمين إلا بعد استلام السيارة والكشف عن المخالفات.</p>
+            <p>8- التأخير عن الاستلام: 50 جنيه/ساعة، وبعد 6 ساعات يعتبر خائناً للأمانة ويحق للطرف الأول إبلاغ الشرطة فوراً.</p>
+            <p>9- العبث بعداد الكيلومتر: غرامة 1500 جنيه.</p>
+            <p>10- المستأجر مسئول كاملاً أمام المرور والقضاء عن أي تلفيات أو مخالفات، وتحسب مدة الإصلاح ضمن مدة الإيجار ويتحمل تكاليفه.</p>
+            <p>11- أي نزاع يخص هذا العقد يختص به القضاء المختص.</p>
+            ${notes ? `<p><strong>ملاحظات:</strong> ${notes}</p>` : ''}
+        </div>
+
+        <div class="contract-section" style="border-color: var(--text-muted); padding-top:8px;">
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:15px;">
+                <div>
+                    <p style="color:var(--text-muted); font-size:10px;">الطرف الأول</p>
+                    <div style="border-bottom:1px dashed var(--border-color); margin-top:20px; height:1px;"></div>
+                </div>
+                <div>
+                    <p style="color:var(--text-muted); font-size:10px;">الطرف الثاني</p>
+                    <div style="border-bottom:1px dashed var(--border-color); margin-top:20px; height:1px;"></div>
+                </div>
+            </div>
+        </div>
+
+        <p class="page-footer">44 شارع مصطفى صادق الرافعي خلف مستشفى هليوبوليس — ت: 01003524420 - 01112002223</p>
+    `;
+
+    let amanahBody = `
+    <div class="contract-section" style="border: 2.5px solid #007a7a; border-right: 2.5px solid #007a7a; margin-top:6px; background:#f0fdfd;">
+            <p style="text-align:center; font-weight:700; font-size:15px; margin-bottom:7px; color:#007a7a;">إيصال أمانة</p>
+            <p><strong>أستلمت أنا:</strong> ................................................</p>
+            <p><strong>رقم قومي:</strong> ................................................</p>
+            <p><strong>مبلغ وقدره:</strong> ${parseFloat(deposit || 0).toLocaleString()} جنيه فقط لا غير</p>
+            <p><strong>من السيد:</strong> ${name}</p>
+            <p><strong>بصفة أمانة لتوصيلها للسيد:</strong> ................................................</p>
+            <p style="font-size:8px; color:var(--text-muted); margin-top:2px;">وفي حالة عدم التوصيل أكون خائناً للأمانة ومبدداً للمبلغ ومسئولاً قانونياً عنه.</p>
+            <div style="display:flex; justify-content:space-between; align-items:flex-end; margin-top:14px;">
+                <div>
+                    <p style="color:var(--text-muted); font-size:11px;">المستلم</p>
+                    <div style="border-bottom:1px dashed var(--border-color); margin-top:20px; width:150px; height:1px;"></div>
+                </div>
+                <div style="text-align:center;">
+                    <div style="width:60px; height:60px; border:2.5px solid #007a7a; border-radius:50%; margin:0 auto;"></div>
+                    <p style="color:#007a7a; font-size:10px; margin-top:4px; font-weight:600;">بصمة</p>
+                </div>
+            </div>
+        </div>
+    `;
+
+    document.getElementById('contract-body').innerHTML = body;
+    document.getElementById('contract-amanah').innerHTML = amanahBody;
+    let preview = document.getElementById('contract-preview');
+    preview.style.display = 'block';
+    preview.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+    window._contractData = { contractNo, name, phone, car, fmtStart, fmtEnd, days, price, total, deposit, payment, notes };
+}
+
+function copyContract() {
+    let d = window._contractData;
+    if (!d) return;
+    let text = `📋 عقد إيجار سيارة — Trend Car Rental\n`;
+    text += `═══════════════════════════\n`;
+    text += `👤 المستأجر: ${d.name}\n`;
+    text += `📱 الهاتف: ${d.phone || 'غير محدد'}\n`;
+    text += `🚗 السيارة: ${d.car}\n`;
+    text += `📅 الاستلام: ${d.fmtStart}\n`;
+    text += `📅 الإرجاع: ${d.fmtEnd}\n`;
+    text += `⏳ المدة: ${d.days} يوم\n`;
+    text += `💵 سعر اليوم: ${parseFloat(d.price).toLocaleString()} EGP\n`;
+    text += `💰 الإجمالي: ${d.total.toLocaleString()} EGP\n`;
+    text += `🔒 الضمان: ${parseFloat(d.deposit).toLocaleString()} EGP\n`;
+    text += `💳 الدفع: ${d.payment}\n`;
+    if (d.notes) text += `📝 ملاحظات: ${d.notes}\n`;
+    text += `═══════════════════════════\n`;
+    text += `Trend Car Rental ✅`;
+    navigator.clipboard.writeText(text).then(() => showToast('تم نسخ العقد!', 'success'));
+}
+
+function printContract() {
+    if (!window._contractData) { showToast('يجب توليد العقد أولاً'); return; }
+
+    let titleText = document.getElementById('contract-title').innerText;
+    let bodyHTML = document.getElementById('contract-body').innerHTML;
+    let amanahHTML = document.getElementById('contract-amanah').innerHTML;
+
+    let printWindow = window.open('', '_blank');
+
+    if (!printWindow) {
+        showToast('المتصفح منع فتح نافذة الطباعة! اسمح بالنوافذ المنبثقة (Pop-ups) لهذا الموقع من إعدادات المتصفح');
+        return;
+    }
+
+    // بنشيل سطر "رقم العقد" من أول الـ body عشان ننقله تحت مع العنوان
+    let numberMatch = bodyHTML.match(/<p style="text-align:center; color:var\(--text-muted\); font-size:11px; margin-bottom:5px;">.*?<\/p>/);
+    let numberHTML = numberMatch ? numberMatch[0] : '';
+    if (numberMatch) bodyHTML = bodyHTML.replace(numberHTML, '');
+
+    printWindow.document.write(`
+        <!DOCTYPE html>
+        <html lang="ar" dir="rtl">
+        <head>
+            <meta charset="UTF-8">
+            <base href="${window.location.href}">
+            <title>${titleText}</title>
+            <style>
+                @page { size: A4; margin: 0; }
+                * { font-family: Arial, 'Tahoma', sans-serif; box-sizing: border-box; margin:0; padding:0; }
+                body { color:#000; font-size:15px; line-height:1.6; padding: 10mm 8mm; }
+                .top-logo-wrap { text-align:left; margin-bottom:8px; }
+                .top-logo { max-width:65px; }
+                .contract-section {
+                    padding:10px 14px; margin-bottom:7px;
+                    border-right:3px solid #007a7a;
+                    background:#f5f5f5; border-radius:4px;
+                }
+                .contract-section p { margin-bottom:4px; }
+                .contract-terms p { font-size:14px; line-height:1.7; }
+                strong { color:#007a7a; }
+                .page-footer { text-align:center; font-size:12px; color:#555; margin-top:20px; padding-top:10px; border-top:1px solid #ccc; }
+                .amanah-page { page-break-before: always; break-before: page; padding-top:10px; }
+                .print-footer-title { text-align:center; margin-top:14px; padding-top:8px; border-top:3px solid #007a7a; }
+                .print-footer-title h2 { font-size:18px; margin-bottom:3px; }
+                .print-footer-title p { font-size:11px; color:#555; margin:0; }
+            </style>
+        </head>
+        <body>
+            <div class="top-logo-wrap">
+                <img src="trendcar.png" class="top-logo" alt="Trend Car Rental" onerror="this.style.display='none'">
+            </div>
+            ${bodyHTML}
+            <div class="print-footer-title">
+                <h2>${titleText}</h2>
+                ${numberHTML}
+            </div>
+            <div class="amanah-page">
+                ${amanahHTML}
+            </div>
+        </body>
+        </html>
+    `);
+    printWindow.document.close();
+
+    setTimeout(() => {
+        printWindow.focus();
+        printWindow.print();
+    }, 400);
+
+    printWindow.onafterprint = function () {
+        printWindow.close();
+    };
+}
+
+function sendContractWA() {
+    let d = window._contractData;
+    if (!d) return;
+    if (!d.phone) { showToast('رقم الهاتف غير موجود في بيانات العقد'); return; }
+    let phone = d.phone.replace(/\D/g, '');
+    if (phone.startsWith('0')) phone = '2' + phone;
+
+    let msg = `📋 *عقد إيجار سيارة — Trend Car Rental*\n\n`;
+    msg += `👤 *المستأجر:* ${d.name}\n`;
+    msg += `🚗 *السيارة:* ${d.car}\n`;
+    msg += `📅 *الاستلام:* ${d.fmtStart}\n`;
+    msg += `📅 *الإرجاع:* ${d.fmtEnd}\n`;
+    msg += `⏳ *المدة:* ${d.days} يوم\n`;
+    msg += `💰 *الإجمالي:* ${d.total.toLocaleString()} EGP\n`;
+    msg += `🔒 *الضمان:* ${parseFloat(d.deposit).toLocaleString()} EGP\n`;
+    if (d.notes) msg += `📝 *ملاحظات:* ${d.notes}`;
+
+    window.open(`https://wa.me/${phone}?text=${encodeURIComponent(msg)}`, '_blank');
+}
+
+// ========== REVENUE ==========
+let revenueEntries = JSON.parse(localStorage.getItem('trend_revenue') || '[]');
+
+function addRevenueRow(data = {}) {
+    let container = document.getElementById('revenue-entries');
+    let id = Date.now();
+    let row = document.createElement('div');
+    row.className = 'revenue-entry-row';
+    row.dataset.id = id;
+    row.innerHTML = `
+        <div class="form-group">
+            <label>اسم العميل</label>
+            <input type="text" class="rev-name" placeholder="أ/ محمد" value="${data.name || ''}">
+        </div>
+        <div class="form-group">
+            <label>نوع العربية</label>
+            <input type="text" class="rev-car" placeholder="تيوتا 2024" value="${data.car || ''}">
+        </div>
+        <div class="form-group">
+            <label>المبلغ (EGP)</label>
+            <input type="number" class="rev-amount" placeholder="3000" value="${data.amount || ''}">
+        </div>
+        <button class="remove-btn" onclick="this.parentElement.remove()">✕</button>
+    `;
+    container.appendChild(row);
+}
+
+function saveRevenueEntries() {
+    let rows = document.querySelectorAll('.revenue-entry-row');
+    let today = new Date().toISOString().split('T')[0];
+    rows.forEach(row => {
+        let name = row.querySelector('.rev-name').value.trim();
+        let car = row.querySelector('.rev-car').value.trim();
+        let amount = parseFloat(row.querySelector('.rev-amount').value) || 0;
+        if (name && amount > 0) {
+            revenueEntries.push({ name, car, amount, date: today });
+        }
+    });
+    localStorage.setItem('trend_revenue', JSON.stringify(revenueEntries));
+    document.getElementById('revenue-entries').innerHTML = '';
+    showToast('تم الحفظ بنجاح!', 'success');
+    renderRevenueSummary();
+}
+
+function renderRevenueSummary() {
+    let filter = document.getElementById('rev-filter').value;
+    let now = new Date();
+    let filtered = revenueEntries.filter(e => {
+        let d = new Date(e.date);
+        if (filter === 'today') return e.date === now.toISOString().split('T')[0];
+        if (filter === 'week') return (now - d) <= 7 * 86400000;
+        if (filter === 'month') return (now - d) <= 30 * 86400000;
+        return true;
+    });
+
+    let total = filtered.reduce((s, e) => s + e.amount, 0);
+    let count = filtered.length;
+    let avg = count ? Math.round(total / count) : 0;
+
+    document.getElementById('rev-total').textContent = total.toLocaleString();
+    document.getElementById('rev-count').textContent = count;
+    document.getElementById('rev-avg').textContent = avg.toLocaleString();
+
+    let tbody = document.getElementById('rev-table-body');
+    tbody.innerHTML = filtered.length === 0
+        ? `<tr><td colspan="4" style="text-align:center; color:var(--text-muted); padding:20px;">لا يوجد إيرادات في هذه الفترة</td></tr>`
+        : filtered.slice().reverse().map(e => `
+            <tr>
+                <td>${e.name}</td>
+                <td>${e.car || '—'}</td>
+                <td style="color:var(--accent-green); font-weight:700;">${e.amount.toLocaleString()}</td>
+                <td>${new Date(e.date).toLocaleDateString('ar-EG')}</td>
+            </tr>
+        `).join('');
+
+    document.getElementById('revenue-summary').style.display = 'block';
+}
+
+function clearAllRevenue() {
+    if (!confirm('هتمسح كل الإيرادات المحفوظة؟')) return;
+    revenueEntries = [];
+    localStorage.removeItem('trend_revenue');
+    renderRevenueSummary();
+    showToast('تم مسح كل الإيرادات', 'success');
+}
+
+function copyRevenueReport() {
+    let filter = document.getElementById('rev-filter').value;
+    let filterLabel = { today: 'اليوم', week: 'آخر 7 أيام', month: 'آخر 30 يوم', all: 'الكل' }[filter];
+    let total = document.getElementById('rev-total').textContent;
+    let count = document.getElementById('rev-count').textContent;
+
+    let text = `📊 *تقرير الإيرادات — Trend Car Rental*\n`;
+    text += `📅 الفترة: ${filterLabel}\n`;
+    text += `💰 الإجمالي: ${total} EGP\n`;
+    text += `📋 عدد الإيجارات: ${count}\n`;
+    text += `═══════════════════════════\n`;
+    text += `Trend Car Rental ✅`;
+    navigator.clipboard.writeText(text).then(() => showToast('تم نسخ التقرير!', 'success'));
+}
+
+// ========== ALERTS ==========
+let alertData = JSON.parse(localStorage.getItem('trend_alerts') || '[]');
+
+function addAlertRow(data = {}) {
+    let container = document.getElementById('alert-entries');
+    let row = document.createElement('div');
+    row.className = 'alert-entry-row';
+    row.innerHTML = `
+        <div class="form-group">
+            <label>اسم / رقم العربية</label>
+            <input type="text" class="al-car" placeholder="تيوتا - أ ب 123" value="${data.car || ''}">
+        </div>
+        <div class="form-group">
+            <label>انتهاء الرخصة</label>
+            <input type="date" class="al-license" value="${data.license || ''}">
+        </div>
+        <div class="form-group">
+            <label>انتهاء التأمين</label>
+            <input type="date" class="al-insurance" value="${data.insurance || ''}">
+        </div>
+        <button class="remove-btn" onclick="this.parentElement.remove()">✕</button>
+    `;
+    container.appendChild(row);
+}
+
+function saveAndCheckAlerts() {
+    let rows = document.querySelectorAll('.alert-entry-row');
+    alertData = [];
+    rows.forEach(row => {
+        let car = row.querySelector('.al-car').value.trim();
+        let license = row.querySelector('.al-license').value;
+        let insurance = row.querySelector('.al-insurance').value;
+        if (car) alertData.push({ car, license, insurance });
+    });
+    localStorage.setItem('trend_alerts', JSON.stringify(alertData));
+    renderAlerts();
+    showToast('تم الحفظ والفحص!', 'success');
+}
+
+function renderAlerts() {
+    if (alertData.length === 0) {
+        document.getElementById('alerts-result').style.display = 'none';
+        return;
+    }
+
+    let today = new Date();
+    today.setHours(0, 0, 0, 0);
+    let html = '';
+
+    // sort by urgency
+    let items = [];
+    alertData.forEach(entry => {
+        let checks = [];
+        if (entry.license) checks.push({ label: 'الرخصة', date: entry.license });
+        if (entry.insurance) checks.push({ label: 'التأمين', date: entry.insurance });
+        if (checks.length === 0) checks.push({ label: 'لا يوجد تاريخ', date: null });
+        checks.forEach(c => items.push({ car: entry.car, ...c }));
+    });
+
+    items.sort((a, b) => {
+        if (!a.date) return 1;
+        if (!b.date) return -1;
+        return new Date(a.date) - new Date(b.date);
+    });
+
+    items.forEach(item => {
+        let daysLeft = null;
+        let statusClass = 'ok';
+        let badgeClass = 'badge-green';
+        let badgeText = '✓';
+        let subText = '';
+
+        if (item.date) {
+            let expDate = new Date(item.date);
+            expDate.setHours(0, 0, 0, 0);
+            daysLeft = Math.round((expDate - today) / 86400000);
+            let fmtDate = expDate.toLocaleDateString('ar-EG', { dateStyle: 'medium' });
+
+            if (daysLeft < 0) {
+                statusClass = 'expired';
+                badgeClass = 'badge-red';
+                badgeText = 'منتهي';
+                subText = `منتهي منذ ${Math.abs(daysLeft)} يوم — ${fmtDate}`;
+            } else if (daysLeft <= 30) {
+                statusClass = 'warning';
+                badgeClass = 'badge-orange';
+                badgeText = `${daysLeft}\nيوم`;
+                subText = `باقي ${daysLeft} يوم — ${fmtDate}`;
+            } else {
+                badgeText = `${daysLeft}\nيوم`;
+                subText = `باقي ${daysLeft} يوم — ${fmtDate}`;
+            }
+        } else {
+            subText = 'لم يتم إدخال تاريخ';
+            badgeClass = 'badge-green';
+            badgeText = '—';
+        }
+
+        html += `
+            <div class="alert-card ${statusClass}">
+                <div class="alert-badge ${badgeClass}">${badgeText.replace('\n', '<br>')}</div>
+                <div class="alert-info">
+                    <div class="alert-title">🚗 ${item.car}</div>
+                    <div class="alert-sub">${item.label}: ${subText}</div>
+                </div>
+            </div>
+        `;
+    });
+
+    document.getElementById('alerts-cards').innerHTML = html;
+    document.getElementById('alerts-result').style.display = 'block';
+}
+
+function clearAlerts() {
+    if (!confirm('هتمسح كل بيانات الرخص والتأمين؟')) return;
+    alertData = [];
+    localStorage.removeItem('trend_alerts');
+    document.getElementById('alert-entries').innerHTML = '';
+    document.getElementById('alerts-result').style.display = 'none';
+    showToast('تم مسح الكل', 'success');
+}
+
+// ========== SANITIZER ==========
+function sanitizeNumbers() {
+    let lines = document.getElementById('sanitizer-input').value.split('\n');
+    let htmlResult = '';
+    lines.forEach(line => {
+        let clean = line.replace(/\D/g, '');
+        if (!clean) return;
+        if (clean.startsWith('002')) clean = clean.substring(2);
+        else if (clean.startsWith('0')) clean = '2' + clean;
+        else if (!clean.startsWith('2') && clean.length === 10) clean = '20' + clean;
+        if (clean) {
+            htmlResult += `
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px; background:var(--input-bg); padding:8px; border-radius:6px; border:1px solid var(--border-color);">
+                    <span>📱 +${clean}</span>
+                    <button class="tag-btn" style="border-color:var(--accent-green); color:var(--accent-green);" onclick="window.open('https://wa.me/${clean}', '_blank')">فتح واتساب</button>
+                </div>
+            `;
+        }
+    });
+    let resultBox = document.getElementById('sanitizer-result');
+    document.getElementById('sanitizer-text').innerHTML = htmlResult || '<p style="color:var(--text-muted)">لم يتم العثور على أرقام صالحة.</p>';
+    resultBox.style.display = 'block';
+}
+
+// ========== NOTEPAD ==========
+function shareNotes() {
+    let report = `📋 *تقرير تسليم الوردية - Trend Car Rental*\n\n`;
+    report += `🚗 *عربيات خروج اليوم:*\n${document.getElementById('note-out').value || 'لا يوجد'}\n\n`;
+    report += `🔧 *عربيات دخول وصيانة:*\n${document.getElementById('note-in').value || 'لا يوجد'}\n\n`;
+    report += `💰 *معلقات مالية وحسابات:*\n${document.getElementById('note-money').value || 'لا يوجد'}`;
+    navigator.clipboard.writeText(report).then(() => showToast('تم نسخ التقرير بنجاح!', 'success'));
+}
+
+// ========== INIT ==========
+window.onload = function () {
+    updateThemeUI(document.documentElement.getAttribute('data-theme') || 'dark');
+
+    buildIqrarChecklist();
+
+    // init revenue rows
+    if (revenueEntries.length > 0) renderRevenueSummary();
+    else addRevenueRow();
+
+    // init alert rows
+    if (alertData.length > 0) {
+        alertData.forEach(d => addAlertRow(d));
+        renderAlerts();
+    } else {
+        addAlertRow();
+    }
+
+    // clear volatile inputs
+    ['wa-phone','wa-name','wa-car','wa-time','calc-start','calc-end','sanitizer-input',
+     'note-out','note-in','note-money','c-name','c-phone','c-id','c-address',
+     'c-car','c-plate','c-color','c-start','c-end','c-notes',
+     'c-id-from','c-id-issue','c-id-expiry',
+     'c-license-no','c-license-issue','c-license-expiry',
+     'c-engine','c-chassis','c-km-out',
+     'c-km-price','c-damage-fee',
+     'iq-car','iq-plate','iq-color','iq-engine','iq-chassis',
+     'iq-km-out','iq-km-in','iq-km-increase',
+     'iq-name','iq-nationality','iq-id','iq-id-from','iq-id-issue',
+     'iq-license-no','iq-license-from','iq-license-issue',
+     'iq-phone','iq-address','iq-receive-date','iq-return-date',
+     'iq-duration','iq-daily-km','iq-km-price','iq-hour-price',
+     'iq-license-loss-fee','iq-plate-loss-fee'].forEach(id => {
+        let el = document.getElementById(id);
+        if (el) el.value = '';
+    });
+    document.querySelectorAll('.iq-out, .iq-in').forEach(cb => cb.checked = false);
+};
+</script>
+</body>
+</html>
