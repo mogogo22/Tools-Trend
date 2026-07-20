@@ -1497,11 +1497,6 @@ function printContract() {
         return;
     }
 
-    // بنشيل سطر "رقم العقد" من أول الـ body عشان ننقله تحت مع العنوان
-    let numberMatch = bodyHTML.match(/<p style="text-align:center; color:var\(--text-muted\); font-size:11px; margin-bottom:5px;">.*?<\/p>/);
-    let numberHTML = numberMatch ? numberMatch[0] : '';
-    if (numberMatch) bodyHTML = bodyHTML.replace(numberHTML, '');
-
     printWindow.document.write(`
         <!DOCTYPE html>
         <html lang="ar" dir="rtl">
@@ -1512,33 +1507,25 @@ function printContract() {
             <style>
                 @page { size: A4; margin: 0; }
                 * { font-family: Arial, 'Tahoma', sans-serif; box-sizing: border-box; margin:0; padding:0; }
-                body { color:#000; font-size:15px; line-height:1.6; padding: 10mm 8mm; }
-                .top-logo-wrap { text-align:left; margin-bottom:8px; }
-                .top-logo { max-width:65px; }
+                body { color:#000; font-size:14px; line-height:1.55; padding: 10mm 8mm; }
+                h2 { text-align:center; font-size:20px; margin-bottom:10px; padding-bottom:7px; border-bottom:3px solid #007a7a; }
                 .contract-section {
                     padding:10px 14px; margin-bottom:7px;
                     border-right:3px solid #007a7a;
                     background:#f5f5f5; border-radius:4px;
                 }
                 .contract-section p { margin-bottom:4px; }
-                .contract-terms p { font-size:14px; line-height:1.7; }
+                .contract-terms p { font-size:13px; line-height:1.65; }
                 strong { color:#007a7a; }
                 .page-footer { text-align:center; font-size:12px; color:#555; margin-top:20px; padding-top:10px; border-top:1px solid #ccc; }
                 .amanah-page { page-break-before: always; break-before: page; padding-top:10px; }
-                .print-footer-title { text-align:center; margin-top:14px; padding-top:8px; border-top:3px solid #007a7a; }
-                .print-footer-title h2 { font-size:18px; margin-bottom:3px; }
-                .print-footer-title p { font-size:11px; color:#555; margin:0; }
+                .footer-logo { display:block; margin:20px auto 0; max-width:150px; }
             </style>
         </head>
         <body>
-            <div class="top-logo-wrap">
-                <img src="trendcar.png" class="top-logo" alt="Trend Car Rental" onerror="this.style.display='none'">
-            </div>
+            <h2>${titleText}</h2>
             ${bodyHTML}
-            <div class="print-footer-title">
-                <h2>${titleText}</h2>
-                ${numberHTML}
-            </div>
+            <img src="trendcar.png" class="footer-logo" alt="Trend Car Rental" onerror="this.style.display='none'">
             <div class="amanah-page">
                 ${amanahHTML}
             </div>
