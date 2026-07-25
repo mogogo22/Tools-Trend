@@ -562,6 +562,10 @@
                 <input type="text" id="wa-time" placeholder="مثال: اليوم الساعة 5 مساءً">
             </div>
         </div>
+        <div class="form-group">
+            <label>المبلغ (خاص برسالة التجديد فقط)</label>
+            <input type="text" id="wa-amount" placeholder="مثال: 1500 جنيه" inputmode="numeric" oninput="this.value = this.value.replace(/[^0-9]/g, '')">
+        </div>
         <label>اختر نوع الرسالة:</label>
         <div class="template-tags">
             <button class="tag-btn" onclick="generateWA('welcome')">👋 رسالة ترحيب وأسعار</button>
@@ -722,7 +726,8 @@ function generateWA(type) {
     } else if (type === 'return') {
         msg = `أهلاً ${name}، نرجو أن تكون تجربتك مع Trend Car Rental ممتازة. بنفكرك إن ميعاد تسليم العربية ${car} هو ${time}. تحياتنا لك!`;
     } else if (type === 'renew') {
-        msg = `أهلاً ${name}، إيجار العربية ${car} قرب على الانتهاء (${time}). لو حابب تجدد المدة وإنت لسه برا، ابعتلنا رد بس على الرسالة دي ونظبطلك التجديد على طول من غير ما تحتاج ترجع الفرع. في انتظار ردك 🙏`;
+        let amount = document.getElementById('wa-amount').value.trim() || 'المبلغ المتفق عليه';
+        msg = `أهلاً ${name} موعد تجديد السيارة ${car} المبلغ ${amount}`;
     }
 
     window.open(`https://wa.me/${phone}?text=${encodeURIComponent(msg)}`, '_blank');
@@ -936,7 +941,7 @@ window.onload = function () {
     }
 
     // clear volatile inputs
-    ['wa-phone','wa-name','wa-car','wa-time','calc-start','calc-end','sanitizer-input',
+    ['wa-phone','wa-name','wa-car','wa-time','wa-amount','calc-start','calc-end','sanitizer-input',
      'note-out','note-in','note-money'].forEach(id => {
         let el = document.getElementById(id);
         if (el) el.value = '';
